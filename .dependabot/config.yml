@@ -1,10 +1,10 @@
 version: 1
 update_configs:
   - package_manager: "elixir:hex"
-    directory: "/"
+    directory: "/apps/diet"
     update_schedule: "weekly"
   - package_manager: "javascript"
-    directory: "/assets/"
+    directory: "/apps/diet_web/assets/"
     update_schedule: "weekly"
   - package_manager: "docker"
     directory: "/"
