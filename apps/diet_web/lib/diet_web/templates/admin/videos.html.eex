@@ -1,0 +1,41 @@
+<!--
+<div id="container-videos">All Videos:</div>
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/packs/all_videos_page.js") %>"></script>
+-->
+<h1>All Videos:</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Uploader</th>
+      <th>Published At</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= for video <- @videos do %>
+    <tr>
+      <td>
+        <%= link video.title, to: Routes.video_path(@conn, :show, video) %>
+      </td>
+      <td>
+        <%= link "View User", to: Routes.user_path(@conn, :show, video.user_id) %>
+      </td>
+      <td>
+        <%= link "Watch", to: Routes.watch_path(@conn, :show, video), class: "button" %>
+      </td>
+      <td>
+        <%= video.published_at || "-" %>
+      </td>
+      <td>
+        <%= if video.published_at do %>
+          <%= link "Unpublish", to: Routes.admin_path(@conn, :unpublish, video), method: :patch, class: "button" %>
+        <% else %>
+          <%= link "Publish", to: Routes.admin_path(@conn, :publish, video), method: :patch, class: "button" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,3 @@
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/packs/newsfeed.css") %>"/>
+<div id="container-newsfeed"></div>
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/packs/newsfeed.js") %>"></script>

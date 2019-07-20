@@ -1,0 +1,19 @@
+<table>
+  <tr>
+    <td>Field</td>
+    <td>Value</td>
+  </tr>
+  <tr>
+    <td>Id</td>
+    <td><%= @user.id %></td>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td><%= @user.name %></td>
+  </tr>
+  <tr>
+    <td>Username</td>
+    <td><%= @user.username %></td>
+  </tr>
+</table>
+<p><%= link "Dieting Users", to: Routes.user_path(@conn, :index) %></p>

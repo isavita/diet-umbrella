@@ -1,0 +1,4 @@
+<section class="phx-hero">
+  <h1><%= gettext "Welcome to %{name}!", name: "Weight Hater" %></h1>
+  <p>Diet consistently and cheat rarely!!!</p>
+</section>
