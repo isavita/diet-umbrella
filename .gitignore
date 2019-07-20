@@ -18,3 +18,16 @@ erl_crash.dump
 
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
+
+# Ignore .swp files
+.swp
+
+# Ignore .env, .env.development etc.
+.env
+.env.*
+
+# Ignore .iex.exs
+.iex.exs
+
+# Ignore only on main level of the project to fix bug with vim-elm
+elm.json

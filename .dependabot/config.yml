@@ -1,0 +1,11 @@
+version: 1
+update_configs:
+  - package_manager: "elixir:hex"
+    directory: "/"
+    update_schedule: "weekly"
+  - package_manager: "javascript"
+    directory: "/assets/"
+    update_schedule: "weekly"
+  - package_manager: "docker"
+    directory: "/"
+    update_schedule: "weekly"

@@ -5,7 +5,8 @@ defmodule Diet.Umbrella.MixProject do
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      releases: releases()
     ]
   end
 
@@ -22,6 +23,21 @@ defmodule Diet.Umbrella.MixProject do
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps folder
   defp deps do
-    []
+    [
+      {:credo, "~> 1.0", only: [:dev, :test], runtime: false}
+    ]
+  end
+
+  defp releases do
+    [
+      web: [
+        version: "0.0.1",
+        include_executables_for: [:unix],
+        applications: [
+          diet_web: :permanent,
+          runtime_tools: :permanent
+        ]
+      ]
+    ]
   end
 end
