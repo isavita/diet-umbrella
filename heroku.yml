@@ -10,4 +10,4 @@ release:
   command:
     - ./deployment-tasks.sh
 run:
-  web: bin/diet start
+  web: bin/web_app start

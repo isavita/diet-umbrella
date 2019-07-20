@@ -1,2 +1,2 @@
 #!/bin/bash
-bin/diet eval "Diet.Release.migrate"
+bin/web_app eval "Diet.Release.migrate"

@@ -57,7 +57,7 @@ RUN apk update && \
 WORKDIR /app
 
 # Copies the bin files
-COPY --from=build /app/_build/prod/rel/diet ./
+COPY --from=build /app/_build/prod/rel/web_app ./
 COPY deployment-tasks.sh ./
 RUN chown -R nobody: /app
 USER nobody
