@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
@@ -10,8 +10,16 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :diet_web, DietWeb.Endpoint,
-  url: [host: "example.com", port: 80],
+  load_from_system_env: true,
+  url: [scheme: "https", host: "weighthater.com", port: 443],
+  force_ssl: [rewrite_on: [:x_forwarded_proto], hsts: true, host: nil],
+  check_origin: true,
+  server: true,
+  root: ".",
   cache_static_manifest: "priv/static/cache_manifest.json"
+
+# Do not print debug messages in production
+config :logger, level: :info
 
 # ## SSL Support
 #
@@ -47,9 +55,17 @@ config :diet_web, DietWeb.Endpoint,
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
-# Do not print debug messages in production
-config :logger, level: :info
-
-# Finally import the config/prod.secret.exs which loads secrets
-# and configuration from environment variables.
-import_config "prod.secret.exs"
+# ## Using releases (distillery)
+#
+# If you are doing OTP releases, you need to instruct Phoenix
+# to start the server for all endpoints:
+#
+#     config :phoenix, :serve_endpoints, true
+#
+# Alternatively, you can configure exactly which server to
+# start per endpoint:
+#
+#     config :diet_web, DietWeb.Endpoint, server: true
+#
+# Note you can't rely on `System.get_env/1` when using releases.
+# See the releases documentation accordingly.

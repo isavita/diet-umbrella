@@ -7,9 +7,10 @@
 # all use the same configuration file. If you want different
 # configurations or dependencies per app, it is best to
 # move said applications out of the umbrella.
-use Mix.Config
 
-# Configure Mix tasks and generators
+# General application configuration
+import Config
+
 config :diet,
   ecto_repos: [Diet.Repo]
 
@@ -20,7 +21,7 @@ config :diet_web,
 # Configures the endpoint
 config :diet_web, DietWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "2ApStvfudvhgcldJznNf/jPeCWB3DLJ7uQJuILJlJo7ewhPgbXpM78ma7eu9c3+M",
+  secret_key_base: "GkigbnaTo677xRULZ1wPA60mKy2VUT0EAFLIybBPjsfvlzWpaKjveUTk0QWsOutw",
   render_errors: [view: DietWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: DietWeb.PubSub, adapter: Phoenix.PubSub.PG2]
 
