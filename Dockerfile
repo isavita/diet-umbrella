@@ -22,21 +22,21 @@ ENV MIX_ENV=prod
 WORKDIR /app
 
 # Installs and compiles dependencies
-COPY mix.* ./
-COPY config config
+COPY . .
 RUN mix do deps.get, deps.compile
 
 # Builds assets for the Phoenix app
-COPY assets assets
-RUN cd assets && \
+RUN cd apps/diet_web/assets && \
   yarn install && \
   yarn deploy && \
-  cd - && \
+  cd ../../.. && \
   mix phx.digest
 
 # Builds project
-COPY priv priv
-COPY lib lib
+COPY apps/diet_web/priv ./apps/diet_web/priv
+COPY apps/diet_web/lib ./apps/diet_web/lib
+COPY apps/diet/priv ./apps/diet/priv
+COPY apps/diet/lib ./apps/diet/lib
 RUN mix compile
 
 # Builds release

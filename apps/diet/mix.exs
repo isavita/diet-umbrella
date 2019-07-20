@@ -23,7 +23,7 @@ defmodule Diet.MixProject do
   def application do
     [
       mod: {Diet.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:ssl, :logger, :runtime_tools]
     ]
   end
 
@@ -37,7 +37,7 @@ defmodule Diet.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.1"},
-      {:postgrex, ">= 0.0.0"},
+      {:postgrex, ">= 0.13.5"},
       {:pbkdf2_elixir, "~> 1.0"},
       {:sweet_xml, "~> 0.6.6"},
       {:jason, "~> 1.0"}

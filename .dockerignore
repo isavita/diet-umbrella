@@ -1,0 +1,24 @@
+# Ignore elm compilation artifacts
+/assets/elm-stuff/
+# Ignore elixir files
+.iex.exs
+# Ignore elm.json at root because uses assets/elm.json instead
+elm.json
+_build/
+deps/
+.git/
+.gitignore
+Dockerfile
+Makefile
+README*
+priv/static/
+
+# Ignore in diet_web
+apps/diet_web/test/
+apps/diet_web/assets/elm-stuff/
+apps/diet_web/elm.json
+apps/diet_web/priv/static/
+
+# Ignore in diet
+apps/diet/test/
+apps/diet/priv/static/

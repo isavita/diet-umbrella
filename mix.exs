@@ -30,7 +30,7 @@ defmodule Diet.Umbrella.MixProject do
 
   defp releases do
     [
-      web: [
+      diet: [
         version: "0.0.1",
         include_executables_for: [:unix],
         applications: [
