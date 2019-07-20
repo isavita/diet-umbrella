@@ -1,5 +1,5 @@
 defmodule DietWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :diet
+  use Phoenix.Endpoint, otp_app: :diet_web
 
   socket "/socket", DietWeb.UserSocket,
     websocket: true,
@@ -11,7 +11,7 @@ defmodule DietWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :diet,
+    from: :diet_web,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 

@@ -12,14 +12,23 @@ module.exports = (env, options) => ({
       new OptimizeCSSAssetsPlugin({})
     ]
   },
+  resolve: {
+      modules: ['node_modules', 'assets']
+  },
   entry: {
-    './js/app.js': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
+      './app': ['./js/app.js'],
+      './packs/elm_main': ['./entrypoints/elm_main.js'],
+      './packs/video': ['./entrypoints/video.js'],
+      './packs/all_videos_page': ['./entrypoints/all_videos_page.js'],
+      './packs/player': ['./entrypoints/player.js'],
+      './packs/newsfeed': ['./entrypoints/newsfeed.js']
   },
   output: {
-    filename: 'app.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, '../priv/static/js')
   },
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.js$/,
@@ -29,13 +38,24 @@ module.exports = (env, options) => ({
         }
       },
       {
+        test: /\.elm$/,
+        exclude: [/elm-stuff/, /node_modules/],
+        use: {
+          loader: 'elm-webpack-loader',
+          options: {
+            debug: options.mode === "development",
+            pathToElm: "node_modules/.bin/elm"
+          }
+        }
+      },
+      {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({ filename: '../css/app.css' }),
+    new MiniCssExtractPlugin({ filename: '../css/[name].css' }),
     new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
   ]
 });
