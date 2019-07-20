@@ -8,7 +8,7 @@ import Config
 # file or create a script for recreating it, since it's
 # kept out of version control and might be hard to recover
 # or recreate for your teammates (or yourself later on).
-config :diet, DietWeb.Endpoint,
+config :diet_web, DietWeb.Endpoint,
   http: [:inet6, port: System.get_env("PORT")],
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
@@ -19,4 +19,4 @@ config :diet, Diet.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
 
-config :diet, Diet.Endpoint, server: true
+config :diet_web, DietWeb.Endpoint, server: true

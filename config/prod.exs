@@ -14,7 +14,6 @@ config :diet_web, DietWeb.Endpoint,
   url: [scheme: "https", host: "weighthater.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto], hsts: true, host: nil],
   check_origin: true,
-  server: true,
   root: ".",
   cache_static_manifest: "priv/static/cache_manifest.json"
 

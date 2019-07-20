@@ -35,7 +35,6 @@ defmodule Diet.Umbrella.MixProject do
         include_executables_for: [:unix],
         applications: [
           diet_web: :permanent,
-          diet: :permanent,
           runtime_tools: :permanent
         ]
       ]
