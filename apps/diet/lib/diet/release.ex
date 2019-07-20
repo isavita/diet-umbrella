@@ -30,7 +30,7 @@ defmodule Diet.Release do
   end
 
   defp stop_services do
-    #Enum.each(@start_apps, &Application.stop/1)
+    # Enum.each(@start_apps, &Application.stop/1)
   end
 
   defp repos do

@@ -14,7 +14,8 @@ defmodule Diet.Application do
 
     Supervisor.start_link(
       children,
-      [strategy: :one_for_one, name: Diet.Supervisor]
+      strategy: :one_for_one,
+      name: Diet.Supervisor
     )
   end
 end
