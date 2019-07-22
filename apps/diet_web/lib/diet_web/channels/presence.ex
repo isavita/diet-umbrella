@@ -69,8 +69,8 @@ defmodule DietWeb.Presence do
   original presence data.
   """
   use Phoenix.Presence,
-    otp_app: :diet,
-    pubsub_server: Diet.PubSub
+    otp_app: :diet_web,
+    pubsub_server: DietWeb.PubSub
 
   alias Diet.Accounts
 

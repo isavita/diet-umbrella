@@ -9,9 +9,10 @@ defmodule DietWeb.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      DietWeb.Endpoint
+      DietWeb.Endpoint,
       # Starts a worker by calling: DietWeb.Worker.start_link(arg)
       # {DietWeb.Worker, arg},
+      DietWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
