@@ -20,6 +20,11 @@ config :diet_web, DietWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+# Configure http client for wolfram alpha API
+config :info_sys, :wolfram_api,
+  adapter: InfoSys.WolframApi.WolframHTTPClient,
+  app_id: System.get_env("WOLFRAM_APP_ID")
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

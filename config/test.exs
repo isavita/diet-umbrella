@@ -19,3 +19,8 @@ config :diet, Diet.Repo,
 
 # Config for hashing of passwords to less secure but faster version for tests
 config :pbkdf2_elixir, :rounds, 1
+
+# Configure fake http client for wolfram alpha API
+config :info_sys, :wolfram_api,
+  adapter: InfoSys.WolframApi.WolframInMemory,
+  app_id: "XXXXX"

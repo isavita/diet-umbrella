@@ -74,3 +74,8 @@ config :diet, Diet.Repo,
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
+
+# Configure http client for wolfram alpha API
+config :info_sys, :wolfram_api,
+  adapter: InfoSys.WolframApi.WolframInMemory,
+  app_id: "XXXXX"

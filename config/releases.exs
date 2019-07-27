@@ -19,4 +19,9 @@ config :diet, Diet.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
 
+# Configure http client for wolfram alpha API
+config :info_sys, :wolfram_api,
+  adapter: InfoSys.WolframApi.WolframHTTPClient,
+  app_id: System.fetch_env!("WOLFRAM_APP_ID")
+
 config :diet_web, DietWeb.Endpoint, server: true
