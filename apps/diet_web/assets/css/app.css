@@ -1,6 +1,7 @@
 /* This file is for your main application css. */
 
 @import "./bootstrap3.css";
+@import "./newsfeed.css";
 
 /* Promo and logo */
 .phx-hero {

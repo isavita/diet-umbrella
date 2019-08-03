@@ -1,3 +1,14 @@
-<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/packs/newsfeed.css") %>"/>
-<div id="container-newsfeed"></div>
-<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/packs/newsfeed.js") %>"></script>
+<div class="newsfeed">
+  <h2>Popular videos</h2>
+  <ul class="newsfeed-popular-videos">
+  <%= for video <- @videos do %>
+    <li>
+      <div>
+        <h4><%= video.title %><h4>
+        <iframe class="newsfeed-iframe-player" src="<%= embedded_url(video) %>" allowfullscreen>
+        </iframe>
+      </div>
+    </li>
+  <% end %>
+  </ul>
+</div>

@@ -17,11 +17,8 @@ module.exports = (env, options) => ({
   },
   entry: {
       './app': ['./js/app.js'],
-      './packs/elm_main': ['./entrypoints/elm_main.js'],
       './packs/video': ['./entrypoints/video.js'],
-      './packs/all_videos_page': ['./entrypoints/all_videos_page.js'],
       './packs/player': ['./entrypoints/player.js'],
-      './packs/newsfeed': ['./entrypoints/newsfeed.js']
   },
   output: {
     filename: '[name].js',
@@ -37,18 +34,7 @@ module.exports = (env, options) => ({
           loader: 'babel-loader'
         }
       },
-      {
-        test: /\.elm$/,
-        exclude: [/elm-stuff/, /node_modules/],
-        use: {
-          loader: 'elm-webpack-loader',
-          options: {
-            debug: options.mode === "development",
-            pathToElm: "node_modules/.bin/elm"
-          }
-        }
-      },
-      {
+     {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       }

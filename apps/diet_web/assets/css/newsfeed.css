@@ -1,11 +1,15 @@
-.popular-videos {
+.newsfeed {
+  text-align: center;
+}
+
+.newsfeed-popular-videos {
   list-style-type: none;
   text-align: center;
 }
 
-.iframe-player {
+.newsfeed-iframe-player {
   width: 560px;
   height: 315px;
   margin: 0 auto;
-  border: 5px solid #EEE;
+  border: 2px solid #EEE;
 }

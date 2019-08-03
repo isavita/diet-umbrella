@@ -8,6 +8,7 @@ defmodule DietWeb.PageController do
   end
 
   def newsfeed(conn, _params) do
-    render(conn, "newsfeed.html")
+    videos = Multimedia.list_popular_videos()
+    render(conn, "newsfeed.html", videos: videos)
   end
 end

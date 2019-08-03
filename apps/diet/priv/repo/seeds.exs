@@ -18,6 +18,7 @@ alias Diet.Repo
 
 user_changesets = [
   User.registration_changeset(%User{}, %{
+    admin: true,
     name: "Jose Valim",
     username: "jose",
     password: "password"

@@ -11,6 +11,7 @@
       <th>Uploader</th>
       <th>Published At</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -23,10 +24,10 @@
         <%= link "View User", to: Routes.user_path(@conn, :show, video.user_id) %>
       </td>
       <td>
-        <%= link "Watch", to: Routes.watch_path(@conn, :show, video), class: "button" %>
+        <%= video.published_at || "-" %>
       </td>
       <td>
-        <%= video.published_at || "-" %>
+        <%= link "Watch", to: Routes.watch_path(@conn, :show, video), class: "button" %>
       </td>
       <td>
         <%= if video.published_at do %>

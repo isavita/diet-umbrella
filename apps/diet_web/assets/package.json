@@ -3,8 +3,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "webpack --mode production",
-    "watch": "webpack --mode development --watch",
-    "elm": "elm"
+    "watch": "webpack --mode development --watch"
   },
   "dependencies": {
     "phoenix": "file:../../../deps/phoenix",
@@ -16,7 +15,6 @@
     "babel-loader": "^8.0.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.0.0",
-    "elm-webpack-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.8.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "uglifyjs-webpack-plugin": "^2.1.3",
