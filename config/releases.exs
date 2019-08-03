@@ -8,9 +8,16 @@ import Config
 # file or create a script for recreating it, since it's
 # kept out of version control and might be hard to recover
 # or recreate for your teammates (or yourself later on).
+
 config :diet_web, DietWeb.Endpoint,
   http: [:inet6, port: System.get_env("PORT")],
   secret_key_base: System.get_env("SECRET_KEY_BASE")
+
+# Configures live view
+config :diet_web, DietWeb.Endpoint,
+  live_view: [
+    signing_salt: System.get_env("LIVE_VIEW_SIGNING_SALT")
+  ]
 
 # Configure your database
 config :diet, Diet.Repo,

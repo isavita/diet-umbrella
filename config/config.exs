@@ -18,12 +18,22 @@ config :diet_web,
   ecto_repos: [Diet.Repo],
   generators: [context_app: :diet]
 
+# Configures live view
+config :diet_web, DietWeb.Endpoint,
+  live_view: [
+    signing_salt: "sKk7erR+enxstIetrCWKG/SWdB6xTmWKQqmDqLt5EVUAbb4rP4hRTtBpm/B4TJxq"
+  ]
+
+# Configures template engine for live view
+config :phoenix,
+  template_engines: [leex: Phoenix.LiveView.Engine]
+
 # Configures the endpoint
 config :diet_web, DietWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "GkigbnaTo677xRULZ1wPA60mKy2VUT0EAFLIybBPjsfvlzWpaKjveUTk0QWsOutw",
   render_errors: [view: DietWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: DietWeb.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Diet.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,

@@ -9,6 +9,6 @@ defmodule DietWeb.PageController do
 
   def newsfeed(conn, _params) do
     videos = Multimedia.list_popular_videos()
-    render(conn, "newsfeed.html", videos: videos)
+    live_render(conn, DietWeb.NewsfeedLiveView, session: %{videos: videos})
   end
 end

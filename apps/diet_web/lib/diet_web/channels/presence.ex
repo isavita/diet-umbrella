@@ -70,7 +70,7 @@ defmodule DietWeb.Presence do
   """
   use Phoenix.Presence,
     otp_app: :diet_web,
-    pubsub_server: DietWeb.PubSub
+    pubsub_server: Diet.PubSub
 
   alias Diet.Accounts
 

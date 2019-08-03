@@ -13,6 +13,12 @@ defmodule Diet.Multimedia do
 
   @popular_videos_count 20
 
+  @topic inspect(__MODULE__)
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Diet.PubSub, @topic)
+  end
+
   def list_videos, do: Repo.all(Video)
 
   def list_popular_videos do
@@ -44,12 +50,14 @@ defmodule Diet.Multimedia do
     |> Video.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
+    |> notify_subscribers({:video, :created})
   end
 
   def update_video(%Video{} = video, attrs) do
     video
     |> Video.changeset(attrs)
     |> Repo.update()
+    |> notify_subscribers({:video, :updated})
   end
 
   def delete_video(%Video{} = video), do: Repo.delete(video)
@@ -96,4 +104,11 @@ defmodule Diet.Multimedia do
       )
     )
   end
+
+  defp notify_subscribers({:ok, result}, event) do
+    Phoenix.PubSub.broadcast(Diet.PubSub, @topic, {__MODULE__, event, result})
+    {:ok, result}
+  end
+
+  defp notify_subscribers(error, _event), do: error
 end

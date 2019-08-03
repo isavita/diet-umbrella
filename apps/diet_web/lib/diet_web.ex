@@ -25,6 +25,8 @@ defmodule DietWeb do
       import DietWeb.Gettext
       alias DietWeb.Router.Helpers, as: Routes
 
+      import Phoenix.LiveView.Controller, only: [live_render: 3]
+
       # Custom imports
       import DietWeb.Auth, only: [authenticate_user: 2, authenticate_admin_user: 2]
     end
@@ -45,6 +47,8 @@ defmodule DietWeb do
       import DietWeb.ErrorHelpers
       import DietWeb.Gettext
       alias DietWeb.Router.Helpers, as: Routes
+
+      import Phoenix.LiveView, only: [live_render: 2, live_render: 3, live_link: 1, live_link: 2]
     end
   end
 
@@ -53,6 +57,7 @@ defmodule DietWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
 
       # Custom imports
       import DietWeb.Auth, only: [authenticate_user: 2, authenticate_admin_user: 2]

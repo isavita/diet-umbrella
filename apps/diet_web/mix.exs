@@ -42,6 +42,7 @@ defmodule DietWeb.MixProject do
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:gettext, "~> 0.11"},
       {:diet, in_umbrella: true},
       {:info_sys, in_umbrella: true},

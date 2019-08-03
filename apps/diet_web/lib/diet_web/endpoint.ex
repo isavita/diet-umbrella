@@ -1,6 +1,8 @@
 defmodule DietWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :diet_web
 
+  socket "/live", Phoenix.LiveView.Socket
+
   socket "/socket", DietWeb.UserSocket,
     websocket: true,
     longpoll: false
