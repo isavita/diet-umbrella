@@ -24,6 +24,12 @@ user_changesets = [
     password: "password"
   }),
   User.registration_changeset(%User{}, %{
+    admin: true,
+    name: "Wolfram Alpha",
+    username: "wolfram",
+    password: "password"
+  }),
+  User.registration_changeset(%User{}, %{
     name: "Chris MacDonald",
     username: "chris",
     password: "password"
