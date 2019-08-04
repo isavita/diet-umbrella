@@ -19,6 +19,7 @@
           method: "delete" %>
         </li>
       <% else %>
+        <li><%= link "News Feed", to: Routes.page_path(@conn, :newsfeed) %></li>
         <li><%= link "Register", to: Routes.user_path(@conn, :new) %></li>
         <li><%= link "Log in", to: Routes.session_path(@conn, :new) %></li>
       <% end %>

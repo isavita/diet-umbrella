@@ -38,11 +38,4 @@ defmodule DietWeb.Router do
     patch "/videos/:id/actions/publish", AdminController, :publish
     patch "/videos/:id/actions/unpublish", AdminController, :unpublish
   end
-
-  scope "/api", DietWeb.Api, as: :api do
-    pipe_through :api
-
-    resources "/videos", VideoController, only: [:index]
-    get "/popular_videos", VideoController, :popular_videos
-  end
 end

@@ -12,6 +12,7 @@ defmodule Diet.Multimedia do
   alias Diet.Multimedia.Annotation
 
   @popular_videos_count 20
+  @list_query_limit 500
 
   @topic inspect(__MODULE__)
 
@@ -21,13 +22,24 @@ defmodule Diet.Multimedia do
 
   def list_videos, do: Repo.all(Video)
 
+  def list_published_videos(opts \\ []) do
+    Video
+    |> published_query(opts)
+    |> Repo.all()
+  end
+
   def list_popular_videos do
-    Repo.all(
-      from(v in Video,
-        where: not is_nil(v.published_at),
-        order_by: [desc: :id],
-        limit: @popular_videos_count
-      )
+    Video
+    |> published_query(limit: @popular_videos_count)
+    |> Repo.all()
+  end
+
+  defp published_query(queryable, opts \\ []) do
+    limit = opts[:limit] || @list_query_limit
+    from(q in queryable,
+      where: not is_nil(q.published_at),
+      order_by: [desc: :id],
+      limit: ^limit
     )
   end
 
