@@ -23,6 +23,8 @@ defmodule DietWeb.Router do
     resources "/users", UserController, only: [:index, :show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     get "/watch/:id", WatchController, :show
+
+    get "/sitemap", SitemapController, :sitemap
   end
 
   scope "/manage", DietWeb do
