@@ -13,3 +13,7 @@
   margin: 0 auto;
   border: 2px solid #EEE;
 }
+
+div.newsfeed-video-header span, h4 {
+  display: inline;
+}

@@ -5,11 +5,12 @@ defmodule Diet.Multimedia do
 
   import Ecto.Query, warn: false
 
-  alias Diet.Repo
   alias Diet.Accounts.User
-  alias Diet.Multimedia.Video
-  alias Diet.Multimedia.Category
+  alias Diet.Repo
   alias Diet.Multimedia.Annotation
+  alias Diet.Multimedia.Category
+  alias Diet.Multimedia.Like
+  alias Diet.Multimedia.Video
 
   @popular_videos_count 20
   @list_query_limit 500
@@ -36,6 +37,7 @@ defmodule Diet.Multimedia do
 
   defp published_query(queryable, opts \\ []) do
     limit = opts[:limit] || @list_query_limit
+
     from(q in queryable,
       where: not is_nil(q.published_at),
       order_by: [desc: :id],
@@ -102,6 +104,12 @@ defmodule Diet.Multimedia do
   def annotate_video(%User{id: user_id}, video_id, attrs) do
     %Annotation{user_id: user_id, video_id: video_id}
     |> Annotation.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def like_video(user_id, video_id) do
+    %Like{user_id: user_id, video_id: video_id}
+    |> Like.changeset(%{})
     |> Repo.insert()
   end
 

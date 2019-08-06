@@ -11,6 +11,7 @@ defmodule Diet.Accounts.User do
     field :password_hash, :string
 
     has_many :videos, Diet.Multimedia.Video
+    has_many :likes, Diet.Multimedia.Like
 
     timestamps()
   end

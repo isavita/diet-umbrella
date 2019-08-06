@@ -9,7 +9,16 @@ defmodule DietWeb.NewsfeedLiveView do
 
   def mount(session, socket) do
     if connected?(socket), do: Multimedia.subscribe()
-    {:ok, assign(socket, videos: session.videos)}
+    likes_count = 42
+    {:ok, assign(socket, videos: session.videos, likes_count: likes_count)}
+  end
+
+  def handle_event("like", video_id, socket) do
+    {:noreply, update(socket, :likes_count, &(&1 + 1))}
+  end
+
+  def handle_event("unlike", video_id, socket) do
+    {:noreply, update(socket, :likes_count, &(&1 - 1))}
   end
 
   def handle_info({Multimedia, {:video, _}, _}, socket) do

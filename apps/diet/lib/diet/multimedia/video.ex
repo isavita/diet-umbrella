@@ -13,6 +13,7 @@ defmodule Diet.Multimedia.Video do
     belongs_to :user, Diet.Accounts.User
     belongs_to :category, Diet.Multimedia.Category
     has_many :annotations, Diet.Multimedia.Annotation
+    has_many :likes, Diet.Multimedia.Like
 
     timestamps()
   end
