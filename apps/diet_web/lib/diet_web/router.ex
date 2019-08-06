@@ -24,7 +24,7 @@ defmodule DietWeb.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     get "/watch/:id", WatchController, :show
 
-    get "/sitemap", SitemapController, :sitemap
+    get "/sitemap.xml", SitemapController, :sitemap
   end
 
   scope "/manage", DietWeb do
