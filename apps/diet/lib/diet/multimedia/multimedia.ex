@@ -28,8 +28,17 @@ defmodule Diet.Multimedia do
 
   def list_popular_videos do
     Video
+    |> popular_query()
     |> published_query(limit: @popular_videos_count)
     |> Repo.all()
+  end
+
+  defp popular_query(queryable) do
+    from(q in queryable,
+      left_join: l in assoc(q, :likes),
+      group_by: q.id,
+      order_by: [desc: count(l.id)],
+    )
   end
 
   defp published_query(queryable, opts \\ []) do
@@ -37,7 +46,6 @@ defmodule Diet.Multimedia do
 
     from(q in queryable,
       where: not is_nil(q.published_at),
-      order_by: [desc: :id],
       limit: ^limit
     )
   end
