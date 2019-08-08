@@ -7,10 +7,7 @@ defmodule Diet.Multimedia do
 
   alias Diet.Accounts.User
   alias Diet.Repo
-  alias Diet.Multimedia.Annotation
-  alias Diet.Multimedia.Category
-  alias Diet.Multimedia.Like
-  alias Diet.Multimedia.Video
+  alias Diet.Multimedia.{Annotation, Category, Like, Video}
 
   @popular_videos_count 20
   @list_query_limit 500
@@ -49,6 +46,30 @@ defmodule Diet.Multimedia do
     Video
     |> user_videos_query(user)
     |> Repo.all()
+  end
+
+  def videos_like_counts(video_ids) do
+    Repo.all(
+      from(l in Like,
+        where: l.video_id in ^video_ids,
+        group_by: l.video_id,
+        select: {l.video_id, count(l.id)}
+      )
+    )
+  end
+
+  def user_likes_video?(user_id, video_id) do
+    Repo.one(
+      from(l in Like,
+        where: l.video_id == ^video_id and l.user_id == ^user_id,
+        select: l.id,
+        limit: 1
+      )
+    ) != nil
+  end
+
+  def video_likes_count(video_id) do
+    Repo.one(from(l in Like, where: l.video_id == ^video_id, select: count(l.id)))
   end
 
   def get_video!(id), do: Repo.get!(Video, id)
@@ -112,6 +133,12 @@ defmodule Diet.Multimedia do
     |> Like.changeset(%{})
     |> Repo.insert()
   end
+
+  def unlike_video(user_id, video_id) do
+    get_like!(user_id, video_id) |> Repo.delete()
+  end
+
+  def get_like!(user_id, video_id), do: Repo.get_by!(Like, user_id: user_id, video_id: video_id)
 
   def list_annotations(%Video{} = video, since_id \\ 0) do
     Repo.all(

@@ -12,9 +12,10 @@
 #
 alias Diet.Accounts.User
 alias Diet.Multimedia
-alias Diet.Multimedia.Category
-alias Diet.Multimedia.Video
+alias Diet.Multimedia.{Category, Like, Video}
 alias Diet.Repo
+
+import Ecto.Query
 
 user_changesets = [
   User.registration_changeset(%User{}, %{
@@ -67,4 +68,6 @@ videos = [
   }
 ]
 
-Enum.each(videos, &Repo.insert(&1, on_conflict: :nothing))
+Enum.each(videos, &Repo.insert!(&1, on_conflict: :nothing))
+videos = Repo.all(from(v in Video, where: v.user_id == ^jose.id))
+Enum.each(videos, &Repo.insert!(%Like{user_id: jose.id, video_id: &1.id}))

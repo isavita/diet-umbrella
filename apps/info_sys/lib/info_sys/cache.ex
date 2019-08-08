@@ -4,7 +4,7 @@ defmodule InfoSys.Cache do
   @clear_interval :timer.seconds(3600)
 
   def put(name \\ __MODULE__, key, value) do
-    true = IO.inspect(:ets.insert(tab_name(name), {key, value}))
+    true = :ets.insert(tab_name(name), {key, value})
     :ok
   end
 

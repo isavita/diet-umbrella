@@ -6,9 +6,9 @@
       <div>
         <div class="newsfeed-video-header">
           <h4><%= video.title %><h4>
-          <span phx-click="like">&#10506;</span>
-          <span><%= @likes_count %></span>
-          <span phx-click="unlike">&#10507;</span>
+          <span phx-click="like" phx-value=<%= video.id %>>&#10506;</span>
+          <span><%= Map.get(@videos_like_counts, video.id, 0) %></span>
+          <span phx-click="unlike" phx-value=<%= video.id %>>&#10507;</span>
         </div>
         <iframe class="newsfeed-iframe-player" src="<%= embedded_url(video) %>" allowfullscreen>
         </iframe>
