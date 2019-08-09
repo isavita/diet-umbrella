@@ -1,6 +1,4 @@
 defmodule DietWeb.ContextualWebApi.ContextualWebHTTPClient do
-  @contextual_web_api Application.fetch_env!(:diet_web, :contextual_web_api)
-
   @json Phoenix.json_library()
 
   def search(query) when is_binary(query) do
@@ -31,10 +29,14 @@ defmodule DietWeb.ContextualWebApi.ContextualWebHTTPClient do
   end
 
   defp api_host do
-    @contextual_web_api[:api_host]
+    contextual_web_config()[:api_host]
   end
 
   defp api_key do
-    @contextual_web_api[:api_key]
+    contextual_web_config()[:api_key]
+  end
+
+  defp contextual_web_config do
+    Application.fetch_env!(:diet_web, :contextual_web_api)
   end
 end
