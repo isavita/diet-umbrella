@@ -48,7 +48,8 @@ defmodule DietWeb.MixProject do
       {:info_sys, in_umbrella: true},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:fast_sitemap, "~> 1.0-pre"}
+      {:fast_sitemap, "~> 1.0-pre"},
+      {:httpoison, "~> 1.5"}
     ]
   end
 

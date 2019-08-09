@@ -1,0 +1,9 @@
+<form phx-submit="search">
+  <input type="text" name="q" value="<%= @query %>" placeholder="Search..."
+          <%= if @loading, do: "readonly" %>/>
+  <%= for result <- @results do %>
+    <%= raw result["title"] %>
+    <pre>Source: <a href="<%= result["url"] %>" target="_blank"><%= result["url"] %></a></pre>
+    <hr />
+  <% end %>
+</form>

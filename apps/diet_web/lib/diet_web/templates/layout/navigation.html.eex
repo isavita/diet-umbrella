@@ -3,6 +3,7 @@
     <ul>
       <%= if @current_user do %>
         <li><%= @current_user.username %></li>
+        <li><%= link "Search", to: Routes.live_path(@conn, DietWeb.SearchLive) %></li>
         <li><%= link "News Feed", to: Routes.page_path(@conn, :newsfeed) %></li>
         <li><%= link "My Videos", to: Routes.video_path(@conn, :index) %></li>
         <%= if @current_user.admin do %>

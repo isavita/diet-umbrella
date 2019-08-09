@@ -20,6 +20,7 @@ defmodule DietWeb.Router do
 
     get "/", PageController, :index
     get "/newsfeed", PageController, :newsfeed
+    live "/search", SearchLive
     resources "/users", UserController, only: [:index, :show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     get "/watch/:id", WatchController, :show

@@ -31,4 +31,10 @@ config :info_sys, :wolfram_api,
   adapter: InfoSys.WolframApi.WolframHTTPClient,
   app_id: System.fetch_env!("WOLFRAM_APP_ID")
 
+# Configure http client for contextual web API
+config :diet_web, :contextual_web_api,
+  adapter: DietWeb.ContextualWebApi.ContextualWebHTTPClient,
+  api_host: System.get_env("CONTEXTUAL_WEB_API_HOST"),
+  api_key: System.get_env("CONTEXTUAL_WEB_API_KEY")
+
 config :diet_web, DietWeb.Endpoint, server: true

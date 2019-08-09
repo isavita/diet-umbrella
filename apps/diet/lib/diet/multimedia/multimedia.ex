@@ -37,7 +37,7 @@ defmodule Diet.Multimedia do
     from(q in queryable,
       left_join: l in assoc(q, :likes),
       group_by: q.id,
-      order_by: [desc: count(l.id)],
+      order_by: [desc: count(l.id)]
     )
   end
 
