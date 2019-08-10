@@ -22,14 +22,15 @@ defmodule DietWeb.SearchLive do
     socket =
       socket
       |> assign(:contextual_results, Map.get(results, :contextual_results, []))
-      |> assign(:faroo_results, Map.get(results, :contextual_results, []))
+      |> assign(:faroo_results, Map.get(results, :faroo_results, []))
 
     {:noreply, socket}
   end
 
   def searches(query) do
-    [search_task(fn -> {:contextual_results, contextual_search(query)} end),
-      search_task(fn -> {:faroo_results, faroo_search(query)} end),
+    [
+      search_task(fn -> {:contextual_results, contextual_search(query)} end),
+      search_task(fn -> {:faroo_results, faroo_search(query)} end)
     ]
     |> Task.yield_many()
     |> Enum.filter(fn
