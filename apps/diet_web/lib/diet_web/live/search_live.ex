@@ -1,6 +1,8 @@
 defmodule DietWeb.SearchLive do
   use Phoenix.LiveView
 
+  @task_timeout :timer.seconds(10000)
+
   def render(assigns) do
     DietWeb.SearchView.render("index.html", assigns)
   end
@@ -32,7 +34,7 @@ defmodule DietWeb.SearchLive do
       search_task(fn -> {:contextual_results, contextual_search(query)} end),
       search_task(fn -> {:faroo_results, faroo_search(query)} end)
     ]
-    |> Task.yield_many()
+    |> Task.yield_many(@task_timeout)
     |> Enum.filter(fn
       {_task, {:ok, result}} -> true
       _ -> false
