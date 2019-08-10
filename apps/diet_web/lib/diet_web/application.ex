@@ -12,7 +12,8 @@ defmodule DietWeb.Application do
       DietWeb.Endpoint,
       # Starts a worker by calling: DietWeb.Worker.start_link(arg)
       # {DietWeb.Worker, arg},
-      DietWeb.Presence
+      DietWeb.Presence,
+      {Task.Supervisor, name: DietWeb.TaskSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

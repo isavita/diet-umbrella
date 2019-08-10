@@ -1,8 +1,17 @@
 <form phx-submit="search">
   <input type="text" name="q" value="<%= @query %>" placeholder="Search..."
           <%= if @loading, do: "readonly" %>/>
-  <%= for result <- @results do %>
+  <h3>Search Engine I</h3>
+  <%= for result <- @contextual_results do %>
     <%= raw result["title"] %>
+    <pre>Source: <a href="<%= result["url"] %>" target="_blank"><%= result["url"] %></a></pre>
+    <hr />
+  <% end %>
+  <h3>Search Engine II</h3>
+  <%= for result <- @faroo_results do %>
+    <%= raw result["title"] %>
+    <br />
+    <%= img_tag(result["iurl"], width: 300) %>
     <pre>Source: <a href="<%= result["url"] %>" target="_blank"><%= result["url"] %></a></pre>
     <hr />
   <% end %>

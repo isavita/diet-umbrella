@@ -88,7 +88,6 @@ config :diet_web, :contextual_web_api,
 
 # Configure http client for faroo web API
 config :diet_web, :faroo_web_api,
-  # adapter: DietWeb.FarooWebApi.FarooWebInMemory,
-  adapter: DietWeb.FarooWebApi.FarooWebHTTPClient,
+  adapter: DietWeb.FarooWebApi.FarooWebInMemory,
   api_host: System.get_env("FAROO_WEB_API_HOST"),
   api_key: System.get_env("FAROO_WEB_API_KEY")
