@@ -43,4 +43,12 @@ config :diet_web, :faroo_web_api,
   api_host: System.get_env("FAROO_WEB_API_HOST"),
   api_key: System.get_env("FAROO_WEB_API_KEY")
 
+# Configure http client for eventful web API
+config :diet_web, :eventful_web_api,
+  adapter: DietWeb.EventfulWebApi.EventfulWebHTTPClient,
+  api_host: System.get_env("EVENTFUL_WEB_API_HOST"),
+  api_key: System.get_env("EVENTFUL_WEB_API_KEY"),
+  api_cunsumer_key: System.get_env("EVENTFUL_WEB_API_CONSUMER_KEY"),
+  api_cunsumer_secret: System.get_env("EVENTFUL_WEB_API_CONSUMER_SECRET")
+
 config :diet_web, DietWeb.Endpoint, server: true
