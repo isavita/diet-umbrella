@@ -37,4 +37,10 @@ config :diet_web, :contextual_web_api,
   api_host: System.get_env("CONTEXTUAL_WEB_API_HOST"),
   api_key: System.get_env("CONTEXTUAL_WEB_API_KEY")
 
+# Configure http client for faroo web API
+config :diet_web, :faroo_web_api,
+  adapter: DietWeb.FarooWebApi.FarooWebHTTPClient,
+  api_host: System.get_env("FAROO_WEB_API_HOST"),
+  api_key: System.get_env("FAROO_WEB_API_KEY")
+
 config :diet_web, DietWeb.Endpoint, server: true
