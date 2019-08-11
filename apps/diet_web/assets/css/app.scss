@@ -1,0 +1,13 @@
+/* This file is for your main application css. */
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "./newsfeed.scss";
+@import "../../../../deps/phoenix_live_view/assets/css/live_view.css";
+
+.alert:empty {
+  display: none;
+}
+
+.navbar-logo {
+  max-width: 250px;
+}

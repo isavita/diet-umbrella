@@ -1,32 +1,38 @@
-<section class="container">
-  <nav role="navigation">
-    <ul>
-      <%= if @current_user do %>
-        <li><%= @current_user.username %></li>
-        <li><%= link "Search", to: Routes.live_path(@conn, DietWeb.SearchLive) %></li>
-        <li><%= link "News Feed", to: Routes.page_path(@conn, :newsfeed) %></li>
-        <li><%= link "My Videos", to: Routes.video_path(@conn, :index) %></li>
-        <%= if @current_user.admin do %>
-          <li>
-            <%= link "All Users", to: Routes.user_path(@conn, :index) %>
+<nav class="navbar navbar-expand-lg bg-light navbar-light static-top">
+  <div class="container">
+    <%= link to: Routes.page_path(@conn, :index), class: "navbar-brand" do %>
+      <%= img_tag Routes.static_path(@conn, "/images/logo_transparent.png"), class: "navbar-logo", alt: "Weight Hater Logo" %>
+    <% end %>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <%= if @current_user do %>
+          <li class="nav-item"><%= link "Search", to: Routes.live_path(@conn, DietWeb.SearchLive), class: "nav-link" %></li>
+          <li class="nav-item"><%= link "News Feed", to: Routes.page_path(@conn, :newsfeed), class: "nav-link"%></li>
+          <li class="nav-item"><%= link "My Videos", to: Routes.video_path(@conn, :index), class: "nav-link" %></li>
+          <%= if @current_user.admin do %>
+            <li class="nav-item">
+              <%= link "All Users", to: Routes.user_path(@conn, :index), class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link "All Videos", to: Routes.admin_path(@conn, :videos), class: "nav-link" %>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <%= link "Log out",
+            to: Routes.session_path(@conn, :delete, @current_user), class: "nav-link",
+            method: "delete" %>
           </li>
-          <li>
-            <%= link "All Videos", to: Routes.admin_path(@conn, :videos) %>
-          </li>
+        <% else %>
+          <li class="nav-item"><%= link "News Feed", to: Routes.page_path(@conn, :newsfeed), class: "nav-link" %></li>
+          <li class="nav-item"><%= link "Register", to: Routes.user_path(@conn, :new), class: "nav-link" %></li>
+          <li class="nav-item"><%= link "Log in", to: Routes.session_path(@conn, :new), class: "nav-link" %></li>
         <% end %>
-        <li>
-          <%= link "Log out",
-          to: Routes.session_path(@conn, :delete, @current_user),
-          method: "delete" %>
-        </li>
-      <% else %>
-        <li><%= link "News Feed", to: Routes.page_path(@conn, :newsfeed) %></li>
-        <li><%= link "Register", to: Routes.user_path(@conn, :new) %></li>
-        <li><%= link "Log in", to: Routes.session_path(@conn, :new) %></li>
-      <% end %>
-    </ul>
-  </nav>
-  <%= link to: Routes.page_path(@conn, :index), class: "diet-logo" do %>
-    <%= img_tag Routes.static_path(@conn, "/images/logo_transparent.png"), alt: "Weight Hater Logo" %>
-  <% end %>
-</section>
+      </ul>
+    </div>
+  </div>
+</nav>
