@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <%= for field <- Diet.Accounts.User.__schema__(:fields) do %>
+    <%= for field <- Diet.Accounts.User.__schema__(:fields), !Enum.member?(~w(password_hash admin)a, field) do %>
     <tr>
       <td><%= field %></td>
       <td><%= Map.get(@user, field) %></td>
