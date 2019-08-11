@@ -5,17 +5,20 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-  <div>
-    <%= text_input f, :name, placeholder: "Name" %>
+  <div class="form-group">
+    <%= label f, :name %>
+    <%= text_input f, :name, class: "form-control" %>
     <%= error_tag f, :name %>
   </div>
-  <div>
-    <%= text_input f, :username, placeholder: "Username" %>
+  <div class="form-group">
+    <%= label f, :username %>
+    <%= text_input f, :username, class: "form-control" %>
     <%= error_tag f, :username %>
   </div>
-  <div>
-    <%= password_input f, :password, placeholder: "Password" %>
+  <div class="form-group">
+    <%= label f, :password %>
+    <%= password_input f, :password, class: "form-control" %>
     <%= error_tag f, :password %>
   </div>
-  <%= submit "Create User" %>
+  <%= submit "Create User", class: "btn btn-primary" %>
 <% end %>

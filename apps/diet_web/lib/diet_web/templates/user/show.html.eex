@@ -1,19 +1,20 @@
-<table>
-  <tr>
-    <td>Field</td>
-    <td>Value</td>
-  </tr>
-  <tr>
-    <td>Id</td>
-    <td><%= @user.id %></td>
-  </tr>
-  <tr>
-    <td>Name</td>
-    <td><%= @user.name %></td>
-  </tr>
-  <tr>
-    <td>Username</td>
-    <td><%= @user.username %></td>
-  </tr>
+<h1>Show User</h1>
+
+<table class="table table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for field <- Diet.Accounts.User.__schema__(:fields) do %>
+    <tr>
+      <td><%= field %></td>
+      <td><%= Map.get(@user, field) %></td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
-<p><%= link "Dieting Users", to: Routes.user_path(@conn, :index) %></p>
+
+<%= link "All Users", to: Routes.user_path(@conn, :index), role: "button", class: "btn btn-info" %>

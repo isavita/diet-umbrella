@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.video_path(@conn, :update, @video)) %>
 
-<span><%= link "Back", to: Routes.video_path(@conn, :index) %></span>
+<%= link "All Videos", to: Routes.video_path(@conn, :index), role: "button", class: "btn btn-info" %>
