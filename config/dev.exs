@@ -99,3 +99,13 @@ config :diet_web, :eventful_web_api,
   api_key: System.get_env("EVENTFUL_WEB_API_KEY"),
   api_cunsumer_key: System.get_env("EVENTFUL_WEB_API_CONSUMER_KEY"),
   api_cunsumer_secret: System.get_env("EVENTFUL_WEB_API_CONSUMER_SECRET")
+
+# Configure http client for edamam web API
+config :diet_web, :edamam_web_api,
+  adapter: DietWeb.EdamamWebApi.FarooWebHTTPClient,
+  api_key: System.get_env("EDAMAM_WEB_API_KEY")
+
+# Configure http client for Food2Fork API
+config :diet_web, :food_fork_web_api,
+  adapter: DietWeb.FoodForkWebApi.FoodForkWebInMemory,
+  api_key: System.get_env("FOOD_FORK_WEB_API_KEY")

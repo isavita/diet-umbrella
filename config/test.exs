@@ -28,19 +28,29 @@ config :info_sys, :wolfram_api,
 # Configure http client for contextual web API
 config :diet_web, :contextual_web_api,
   adapter: DietWeb.ContextualWebApi.ContextualWebInMemory,
-  api_host: System.get_env("CONTEXTUAL_WEB_API_HOST"),
-  api_key: System.get_env("CONTEXTUAL_WEB_API_KEY")
+  api_host: "XXXXX",
+  api_key: "XXXXX"
 
 # Configure http client for faroo web API
 config :diet_web, :faroo_web_api,
   adapter: DietWeb.FarooWebApi.FarooWebInMemory,
-  api_host: System.get_env("FAROO_WEB_API_HOST"),
-  api_key: System.get_env("FAROO_WEB_API_KEY")
+  api_host: "XXXXX",
+  api_key: "XXXXX"
 
 # Configure http client for eventful web API
 config :diet_web, :eventful_web_api,
   adapter: DietWeb.EventfulWebApi.EventfulWebInMemory,
-  api_host: System.get_env("EVENTFUL_WEB_API_HOST"),
-  api_key: System.get_env("EVENTFUL_WEB_API_KEY"),
-  api_cunsumer_key: System.get_env("EVENTFUL_WEB_API_CONSUMER_KEY"),
-  api_cunsumer_secret: System.get_env("EVENTFUL_WEB_API_CONSUMER_SECRET")
+  api_host: "XXXXX",
+  api_key: "XXXXX",
+  api_cunsumer_key: "XXXXX",
+  api_cunsumer_secret: "XXXXX"
+
+# Configure http client for edamam web API
+config :diet_web, :edamam_web_api,
+  adapter: DietWeb.EdamamWebApi.FarooWebInMemory,
+  api_key: "XXXXX"
+
+# Configure http client for Food2Fork API
+config :diet_web, :food_fork_web_api,
+  adapter: DietWeb.FoodForkWebApi.FarooWebHTTPClient,
+  api_key: "XXXXX"

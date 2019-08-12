@@ -15,6 +15,7 @@ defmodule DietWeb.SearchLive do
       |> assign(:contextual_results, [])
       |> assign(:faroo_results, [])
       |> assign(:eventful_results, [])
+      |> assign(:food_fork_results, [])
 
     {:ok, socket}
   end
@@ -27,6 +28,7 @@ defmodule DietWeb.SearchLive do
       |> assign(:contextual_results, Map.get(results, :contextual_results, []))
       |> assign(:faroo_results, Map.get(results, :faroo_results, []))
       |> assign(:eventful_results, Map.get(results, :eventful_results, []))
+      |> assign(:food_fork_results, Map.get(results, :food_fork_results, []))
 
     {:noreply, socket}
   end
@@ -35,7 +37,8 @@ defmodule DietWeb.SearchLive do
     [
       search_task(fn -> {:contextual_results, contextual_search(query)} end),
       search_task(fn -> {:faroo_results, faroo_search(query)} end),
-      search_task(fn -> {:eventful_results, eventful_search(query)} end)
+      search_task(fn -> {:eventful_results, eventful_search(query)} end),
+      search_task(fn -> {:food_fork_results, food_fork_search(query)} end)
     ]
     |> Task.yield_many(@task_timeout)
     |> Enum.filter(fn
@@ -72,6 +75,13 @@ defmodule DietWeb.SearchLive do
     case DietWeb.EventfulWebApi.search(query) do
       :error -> []
       results -> get_in(results, ["events", "event"]) || []
+    end
+  end
+
+  def food_fork_search(query) do
+    case DietWeb.FoodForkWebApi.search(query) do
+      :error -> []
+      results -> Map.get(results, "recipes") || []
     end
   end
 end

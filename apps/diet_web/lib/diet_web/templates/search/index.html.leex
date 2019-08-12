@@ -27,4 +27,12 @@
     <hr />
   <% end %>
 
+  <h3>Search Recipes IV</h3>
+  <%= for result <- @food_fork_results do %>
+    <%= raw result["title"] %>
+    <br />
+    <%= img_tag(result["image_url"], width: 300) %>
+    <pre>Source: <a href="<%= result["source_url"] %>" target="_blank"><%= result["source_url"] %></a></pre>
+    <hr />
+  <% end %>
 </form>
