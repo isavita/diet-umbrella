@@ -18,7 +18,7 @@ defmodule Diet.Accounts.User do
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :username])
+    |> cast(sanitize_params(attrs), [:name, :username])
     |> validate_required([:name, :username])
     |> validate_length(:username, min: 3, max: 25)
     |> unique_constraint(:username)
@@ -45,6 +45,12 @@ defmodule Diet.Accounts.User do
 
       _ ->
         changeset
+    end
+  end
+
+  defp sanitize_params(params) do
+    for {key, value} <- params, into: %{} do
+      if is_binary(value), do: {key, String.trim(value)}, else: {key, value}
     end
   end
 end

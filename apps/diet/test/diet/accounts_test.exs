@@ -40,6 +40,14 @@ defmodule Diet.AccountsTest do
       assert Accounts.list_users() == []
     end
 
+    test "trims username and name" do
+      attrs = Map.merge(@valid_attrs, %{username: " john ", name: " John \s\t"})
+      assert {:ok, %User{id: id}} = Accounts.register_user(attrs)
+      user = Accounts.get_user!(id)
+      assert user.username == "john"
+      assert user.name == "John"
+    end
+
     test "does not accept long username" do
       attrs = Map.put(@valid_attrs, :username, "really long, long, long username")
 
