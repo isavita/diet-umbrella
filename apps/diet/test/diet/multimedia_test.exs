@@ -77,6 +77,14 @@ defmodule Diet.MultimediaTest do
              ]
     end
 
+    test "create_video/2 does not accept too long title" do
+      owner = Factory.create_user()
+      attrs = Map.put(@valid_attrs, :title, String.duplicate("abcdefghjk", 17))
+
+      assert {:error, changeset} = Multimedia.create_video(owner, attrs)
+      assert "should be at most 160 character(s)" in errors_on(changeset).title
+    end
+
     test "update_video/2 with valid data updates the video" do
       video = Factory.create_video()
       assert {:ok, %Video{} = video} = Multimedia.update_video(video, %{title: "updated title"})

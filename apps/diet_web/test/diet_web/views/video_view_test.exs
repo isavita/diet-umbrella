@@ -21,8 +21,6 @@ defmodule DietWeb.VideoViewTest do
         videos: videos
       )
 
-    assert String.contains?(content, "Listing Videos")
-
     for video <- videos do
       assert String.contains?(content, video.title)
     end

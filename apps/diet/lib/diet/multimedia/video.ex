@@ -25,6 +25,7 @@ defmodule Diet.Multimedia.Video do
     |> validate_required([:url, :title])
     |> validate_format(:url, ~r/youtu/i, message: @url_error_message)
     |> validate_length(:title, min: 3)
+    |> validate_length(:title, max: 160)
     |> assoc_constraint(:category)
     |> slugify_title()
   end
