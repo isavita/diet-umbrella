@@ -4,6 +4,10 @@
 @import "./newsfeed.scss";
 @import "../../../../deps/phoenix_live_view/assets/css/live_view.css";
 
+body {
+  font-family: 'Alegreya', serif;
+}
+
 .alert:empty {
   display: none;
 }

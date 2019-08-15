@@ -1,19 +1,16 @@
-.newsfeed {
-  text-align: center;
+.card-body {
+  padding: 0.5rem;
 }
 
-.newsfeed-popular-videos {
-  list-style-type: none;
-  text-align: center;
+.card-title {
+  margin: 0;
 }
 
-.newsfeed-iframe-player {
-  width: 560px;
-  height: 315px;
-  margin: 0 auto;
-  border: 2px solid #EEE;
-}
-
-div.newsfeed-video-header span, h4 {
-  display: inline;
+.card-footer {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  .material-icons {
+    position: relative;
+    top: 8px;
+  }
 }

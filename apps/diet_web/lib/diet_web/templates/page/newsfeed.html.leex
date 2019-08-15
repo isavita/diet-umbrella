@@ -1,19 +1,25 @@
-<div class="newsfeed">
-  <h2>The Newest Videos</h2>
-  <ul class="newsfeed-popular-videos">
+<div class="container mt-5">
   <%= for video <- @videos do %>
-    <li>
-      <div>
-        <div class="newsfeed-video-header">
-          <h4><%= video.title %><h4>
-          <span phx-click="like" phx-value=<%= video.id %>>&#10506;</span>
-          <span><%= Map.get(@videos_like_counts, video.id, 0) %></span>
-          <span phx-click="unlike" phx-value=<%= video.id %>>&#10507;</span>
-        </div>
-        <iframe class="newsfeed-iframe-player" src="<%= embedded_url(video) %>" allowfullscreen>
-        </iframe>
+    <div class="card text-center my-2">
+      <div class="card-body">
+        <h5 class="card-title"><%= video.title %></h5>
       </div>
-    </li>
+      <div class="embed-responsive embed-responsive-21by9">
+        <iframe class="embed-responsive-item" src="<%= embedded_url(video) %>" allowfullscreen></iframe>
+      </div>
+      <div class="card-footer">
+        <div class="float-sm-left">
+          <i class="material-icons" phx-click="like" phx-value=<%= video.id %>>arrow_upward</i>
+          <span class="badge badge-pill badge-secondary"><%= Map.get(@videos_like_counts, video.id, 0) %></span>
+          <i class="material-icons" phx-click="unlike" phx-value=<%= video.id %>>arrow_downward</i>
+        </div>
+        <div class="float-sm-right">
+          <small class="text-muted">
+            <%= "Published #{posted_on(video.published_at)} by " %>
+            <%= link video.user.username, to: Routes.user_path(DietWeb.Endpoint, :show, video.user) %>
+          </small>
+        </div>
+      </div>
+    </div>
   <% end %>
-  </ul>
 </div>

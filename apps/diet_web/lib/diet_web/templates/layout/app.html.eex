@@ -7,6 +7,9 @@
     <%= render DietWeb.LayoutView, "seo_metadata.html", assigns %>
     <title>Weight Hater</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <!-- Google fonts and icons -->
+    <link href="https://fonts.googleapis.com/css?family=Alegreya:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- We want to export the userToken before to load the rest of the scripts -->
     <script>window.userToken = "<%= assigns[:user_token] %>";</script>
   </head>

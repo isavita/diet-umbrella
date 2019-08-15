@@ -30,6 +30,7 @@ defmodule Diet.Multimedia do
     Video
     |> popular_query()
     |> published_query(limit: @popular_videos_count)
+    |> preload(:user)
     |> Repo.all()
   end
 
