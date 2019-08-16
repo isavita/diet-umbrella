@@ -1,25 +1,48 @@
 <div class="container mt-5">
-  <%= for video <- @videos do %>
-    <div class="card text-center my-2">
-      <div class="card-body">
-        <h5 class="card-title"><%= video.title %></h5>
-      </div>
-      <div class="embed-responsive embed-responsive-21by9">
-        <iframe class="embed-responsive-item" src="<%= embedded_url(video) %>" allowfullscreen></iframe>
-      </div>
-      <div class="card-footer">
-        <div class="float-sm-left">
-          <i class="material-icons arrow-upward" phx-click="like" phx-value=<%= video.id %>>arrow_upward</i>
-          <span class="badge badge-pill badge-secondary"><%= Map.get(@videos_like_counts, video.id, 0) %></span>
-          <i class="material-icons arrow-downward" phx-click="unlike" phx-value=<%= video.id %>>arrow_downward</i>
+  <div class="row">
+    <div class="col-md-4 order-md-2">
+      <div class="card">
+        <%= img_tag Routes.static_path(DietWeb.Endpoint, "/images/coming_features_background.jpg"), class: "card-img-top", alt: "Coming Soon Image" %>
+        <div class="card-header text-center">
+        <h4>Coming Soon</h4>
         </div>
-        <div class="float-sm-right">
-          <small class="text-muted">
-            <%= "Published #{posted_on(video.published_at)} by " %>
-            <%= link video.user.username, to: Routes.user_path(DietWeb.Endpoint, :show, video.user) %>
-          </small>
-        </div>
+        <ol class="list-group list-group-flush">
+          <li class="list-group-item">Live updates with the newest publications</li>
+          <li class="list-group-item">Higher quality newsfeed</li>
+          <li class="list-group-item">User profile page</li>
+          <li class="list-group-item">Interactive way of watching videos</li>
+          <li class="list-group-item">Fitness/Training search</li>
+          <li class="list-group-item">Diet/Nutrition search</li>
+          <li class="list-group-item">Food recipes search</li>
+          <li class="list-group-item">Rate best content for the month</li>
+        </ol>
       </div>
     </div>
-  <% end %>
+
+    <div class="col-md-8 order-md-1">
+      <%= for video <- @videos do %>
+        <div class="card text-center mb-3">
+          <div class="card-body">
+            <h5 class="card-title"><%= video.title %></h5>
+          </div>
+          <div class="embed-responsive embed-responsive-21by9">
+            <iframe class="embed-responsive-item" src="<%= embedded_url(video) %>" allowfullscreen></iframe>
+          </div>
+          <div class="card-footer">
+            <div class="float-sm-left">
+              <i class="material-icons arrow-upward" phx-click="like" phx-value=<%= video.id %>>arrow_upward</i>
+              <span class="badge badge-pill badge-secondary"><%= Map.get(@videos_like_counts, video.id, 0) %></span>
+              <i class="material-icons arrow-downward" phx-click="unlike" phx-value=<%= video.id %>>arrow_downward</i>
+            </div>
+            <div class="float-sm-right">
+              <small class="text-muted">
+                <%= "Published #{posted_on(video.published_at)} by " %>
+                <%= link video.user.username, to: Routes.user_path(DietWeb.Endpoint, :show, video.user) %>
+              </small>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
