@@ -1,7 +1,7 @@
 defmodule DietWeb.SitemapController do
   use DietWeb, :controller
 
-  def sitemap(conn, params) do
+  def sitemap(conn, _params) do
     xml =
       DietWeb.Sitemaps.generate()
       |> Enum.join()

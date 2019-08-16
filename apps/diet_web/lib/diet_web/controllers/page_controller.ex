@@ -1,7 +1,6 @@
 defmodule DietWeb.PageController do
   use DietWeb, :controller
 
-  alias Diet.Multimedia
   alias DietWeb.NewsfeedLive
 
   def index(conn, _params) do

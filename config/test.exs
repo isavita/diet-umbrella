@@ -52,5 +52,5 @@ config :diet_web, :edamam_web_api,
 
 # Configure http client for Food2Fork API
 config :diet_web, :food_fork_web_api,
-  adapter: DietWeb.FoodForkWebApi.FarooWebHTTPClient,
+  adapter: DietWeb.FoodForkWebApi.FoodForkWebInMemory,
   api_key: "XXXXX"

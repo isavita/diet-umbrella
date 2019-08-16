@@ -1,6 +1,7 @@
 /* This file is for your main application css. */
 
 @import "~bootstrap/scss/bootstrap.scss";
+@import "./colors.scss";
 @import "./newsfeed.scss";
 @import "../../../../deps/phoenix_live_view/assets/css/live_view.css";
 
@@ -14,4 +15,11 @@ body {
 
 .navbar-logo {
   max-width: 250px;
+}
+
+.arrow-upward, .arrow-downward {
+  &:hover {
+    color: $light-purple;
+    cursor: pointer;
+  }
 }
