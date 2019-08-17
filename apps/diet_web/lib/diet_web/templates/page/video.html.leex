@@ -1,0 +1,22 @@
+<div class="card text-center mb-3">
+  <div class="card-body">
+    <h5 class="card-title"><%= @video.title %></h5>
+  </div>
+  <div class="embed-responsive embed-responsive-21by9">
+    <iframe class="embed-responsive-item" src="<%= embedded_url(@video) %>" allowfullscreen></iframe>
+  </div>
+  <div class="card-footer">
+    <div class="float-sm-left">
+      <i class="material-icons arrow-upward" phx-click="like" phx-value=<%= @video.id %>>arrow_upward</i>
+      <span class="badge badge-pill badge-secondary"><%= Map.get(@videos_like_counts, @video.id, 0) %></span>
+      <i class="material-icons arrow-downward" phx-click="unlike" phx-value=<%= @video.id %>>arrow_downward</i>
+      <i class="material-icons report">report</i>
+    </div>
+    <div class="float-sm-right">
+      <small class="text-muted">
+        <%= "Published #{posted_on(@video.published_at)} by " %>
+        <%= link @video.user.username, to: Routes.user_path(DietWeb.Endpoint, :show, @video.user) %>
+      </small>
+    </div>
+  </div>
+</div>
