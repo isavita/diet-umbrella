@@ -7,7 +7,7 @@ defmodule Diet.Multimedia do
 
   alias Diet.Accounts.User
   alias Diet.Repo
-  alias Diet.Multimedia.{Annotation, Category, Like, Video}
+  alias Diet.Multimedia.{Annotation, Category, Like, Report, Video}
 
   @popular_videos_count 20
   @list_query_limit 500
@@ -79,6 +79,12 @@ defmodule Diet.Multimedia do
 
   def video_likes_count(video_id) do
     Repo.one(from(l in Like, where: l.video_id == ^video_id, select: count(l.id)))
+  end
+
+  def report_video(user_id, video_id, reasons) do
+    %Report{user_id: user_id, video_id: video_id}
+    |> Report.changeset(reasons)
+    |> Repo.insert()
   end
 
   def get_video!(id), do: Repo.get!(Video, id)

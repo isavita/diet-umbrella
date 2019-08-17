@@ -108,4 +108,19 @@ defmodule Diet.MultimediaTest do
       assert %Ecto.Changeset{} = Multimedia.change_video(video)
     end
   end
+
+  describe "report" do
+    alias Diet.Multimedia.Report
+
+    @valid_attrs %{spam_or_abuse: true}
+
+    test "report_video/3 with valid data creates a report" do
+      user = Factory.create_user()
+      video = Factory.create_video()
+
+      user_id = user.id
+      video_id = video.id
+      assert {:ok, %Report{user_id: user_id, video_id: video_id, spam_or_abuse: true}} = Multimedia.report_video(user_id, video_id, @valid_attrs)
+    end
+  end
 end

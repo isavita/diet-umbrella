@@ -33,6 +33,7 @@
               <i class="material-icons arrow-upward" phx-click="like" phx-value=<%= video.id %>>arrow_upward</i>
               <span class="badge badge-pill badge-secondary"><%= Map.get(@videos_like_counts, video.id, 0) %></span>
               <i class="material-icons arrow-downward" phx-click="unlike" phx-value=<%= video.id %>>arrow_downward</i>
+              <i class="material-icons report">report</i>
             </div>
             <div class="float-sm-right">
               <small class="text-muted">
