@@ -17,9 +17,13 @@ body {
   max-width: 250px;
 }
 
-.arrow-upward, .arrow-downward {
+.arrow-upward, .arrow-downward, .report {
   &:hover {
     color: $light-purple;
     cursor: pointer;
   }
+}
+
+.report {
+  color: $black;
 }

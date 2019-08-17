@@ -8,6 +8,13 @@ defmodule DietWeb.PageController do
   end
 
   def newsfeed(conn, _params) do
-    live_render(conn, NewsfeedLive, session: %{current_user: conn.assigns.current_user})
+    live_render(
+      conn,
+      NewsfeedLive,
+      session: %{
+        current_user: conn.assigns.current_user,
+        csrf_token: Phoenix.Controller.get_csrf_token()
+      }
+    )
   end
 end

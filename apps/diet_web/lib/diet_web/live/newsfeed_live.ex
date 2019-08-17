@@ -4,20 +4,25 @@ defmodule DietWeb.NewsfeedLive do
   alias Diet.Multimedia
 
   def render(assigns) do
+    IO.inspect(assigns)
     DietWeb.PageView.render("newsfeed.html", assigns)
   end
 
-  def mount(session, socket) do
+  def mount(%{current_user: current_user, csrf_token: csrf_token}, socket) do
     if connected?(socket), do: Multimedia.subscribe()
     videos = Multimedia.list_popular_videos()
 
-    {:ok,
-     assign(
-       socket,
-       current_user: session.current_user,
-       videos: videos,
-       videos_like_counts: videos_like_counts(videos)
-     )}
+    socket =
+      assign(
+        socket,
+        current_user: current_user,
+        csrf_token: csrf_token,
+        videos: videos,
+        videos_like_counts: videos_like_counts(videos),
+        report_modal_open: false
+      )
+
+    {:ok, socket}
   end
 
   def handle_event("like", video_id, socket) do
@@ -46,6 +51,10 @@ defmodule DietWeb.NewsfeedLive do
         fn map -> Map.update(map, video_id, change, &(&1 - change)) end
       )
     }
+  end
+
+  def handle_event("open-report-modal", _value, socket) do
+    {:noreply, assign(socket, report_modal_open: true)}
   end
 
   def handle_info({Multimedia, {:video, _}, _}, socket) do

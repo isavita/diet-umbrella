@@ -16,5 +16,6 @@ defmodule Diet.Multimedia.Report do
   def changeset(report, attrs) do
     report
     |> cast(attrs, [:spam_or_abuse, :not_interested])
+    |> unique_constraint(:name_your_constraint, name: :user_video_unique_index, message: "Report already submitted")
   end
 end
