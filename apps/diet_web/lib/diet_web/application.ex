@@ -13,7 +13,7 @@ defmodule DietWeb.Application do
       # Starts a worker by calling: DietWeb.Worker.start_link(arg)
       # {DietWeb.Worker, arg},
       DietWeb.Presence,
-      DietWeb.QualityControl.Server,
+      {DietWeb.QualityControl.Server, [[]]},
       {Task.Supervisor, name: DietWeb.TaskSupervisor}
     ]
 
