@@ -61,4 +61,10 @@ config :diet_web, :food_fork_web_api,
   adapter: DietWeb.FoodForkWebApi.FoodForkWebHTTPClient,
   api_key: System.get_env("FOOD_FORK_WEB_API_KEY")
 
+# Configure runtime variables
+cofign :diet_web, :runtime,
+  quality_check_frequency: System.get_env("QUALITY_CHECK_FREQUENCY") ,
+  lower_quality_report_count: System.get_env("LOWER_QUALITY_REPORT_COUNT"),
+  spam_report_count: System.get_env("SPAM_REPORT_COUNT")
+
 config :diet_web, DietWeb.Endpoint, server: true

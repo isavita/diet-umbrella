@@ -87,6 +87,22 @@ defmodule Diet.Multimedia do
     |> Repo.insert()
   end
 
+  def mark_reported_videos(reports_count) do
+    videos = reported_videos_query(reports_count) |> Repo.all()
+
+    from(v in Video, where: v.id in ^videos)
+    |> Repo.update_all(set: [low_quality: true])
+  end
+
+  defp reported_videos_query(reports_count) do
+    from(v in Video,
+      join: r in assoc(v, :reports),
+      group_by: r.video_id,
+      having: count(r.id) >= ^reports_count,
+      select: r.video_id
+    )
+  end
+
   def get_video!(id), do: Repo.get!(Video, id)
 
   def get_user_video!(%User{} = user, id) do

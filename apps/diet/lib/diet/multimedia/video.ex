@@ -8,12 +8,14 @@ defmodule Diet.Multimedia.Video do
     field :title, :string
     field :url, :string
     field :slug, :string
+    field :low_quality, :boolean
     field :published_at, :utc_datetime
 
     belongs_to :user, Diet.Accounts.User
     belongs_to :category, Diet.Multimedia.Category
     has_many :annotations, Diet.Multimedia.Annotation
     has_many :likes, Diet.Multimedia.Like
+    has_many :reports, Diet.Multimedia.Report
 
     timestamps()
   end
@@ -21,7 +23,7 @@ defmodule Diet.Multimedia.Video do
   @url_error_message "Invalid format. Please make sure that the url is from youtube."
   def changeset(video, attrs) do
     video
-    |> cast(attrs, [:url, :title, :description, :category_id, :published_at])
+    |> cast(attrs, [:url, :title, :description, :category_id, :low_quality, :published_at])
     |> validate_required([:url, :title])
     |> validate_format(:url, ~r/youtu/i, message: @url_error_message)
     |> validate_length(:title, min: 3)
