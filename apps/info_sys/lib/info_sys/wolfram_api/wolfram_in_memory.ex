@@ -1,88 +1,12 @@
 defmodule InfoSys.WolframApi.WolframInMemory do
+  def fetch_xml("none") do
+    "<queryresult></queryresult>"
+  end
+
   def fetch_xml(_query) do
     """
     <?xml version='1.0' encoding='UTF-8'?>
-    <queryresult success='true'
-        error='false'
-        numpods='4'
-        datatypes=''
-        timedout=''
-        timedoutpods=''
-        timing='0.6910000000000001'
-        parsetiming='0.067'
-        parsetimedout='false'
-        recalculate=''
-        id='MSPa1018313a9dcg84c94249a00001619e4bg4g4c38fa'
-        host='http://www5b.wolframalpha.com'
-        server='53'
-        related='http://www5b.wolframalpha.com/api/v2/relatedQueries.jsp?id=MSPa1018413a9dcg84c94249a000068i48cb7e9i16be46807070643161599741'
-        version='2.6'>
-    <pod title='Input interpretation'
-        scanner='Identity'
-        id='Input'
-        position='100'
-        error='false'
-        numsubpods='1'>
-      <subpod title=''>
-      <plaintext>monoid</plaintext>
-      </subpod>
-      <expressiontypes>
-      <expressiontype name='Default' />
-      </expressiontypes>
-    </pod>
-    <pod title='Definition'
-        scanner='Data'
-        id='DefinitionPod:MathWorldData'
-        position='300'
-        error='false'
-        numsubpods='1'
-        primary='true'>
-      <subpod title=''>
-      <plaintext>A monoid is a set that is closed under an associative binary operation and has an identity element I element S such that for all a element S, Ia = aI = a. Note that unlike a group, its elements need not have inverses. It can also be thought of as a semigroup with an identity element.
-    A monoid must contain at least one element.
-    A monoid that is commutative is, not surprisingly, known as a commutative monoid.</plaintext>
-      </subpod>
-      <expressiontypes>
-      <expressiontype name='Default' />
-      </expressiontypes>
-      <infos count='1'>
-      <info>
-        <link url='http://mathworld.wolfram.com/Monoid.html'
-            text='More information' />
-      </info>
-      </infos>
-    </pod>
-    <pod title='Related topics'
-        scanner='Data'
-        id='RelatedTopicsPod:MathWorldData'
-        position='400'
-        error='false'
-        numsubpods='1'>
-      <subpod title=''>
-      <plaintext>binary operator | commutative monoid | free idempotent monoid | group | semigroup | submonoid</plaintext>
-      </subpod>
-      <expressiontypes>
-      <expressiontype name='Default' />
-      </expressiontypes>
-    </pod>
-    <pod title='Subject classifications'
-        scanner='Data'
-        id='SubjectPod:MathWorldData'
-        position='500'
-        error='false'
-        numsubpods='1'>
-      <subpod title='MathWorld'>
-      <plaintext>group-like objects</plaintext>
-      </subpod>
-      <expressiontypes>
-      <expressiontype name='Default' />
-      </expressiontypes>
-      <states count='1'>
-      <state name='Show details'
-          input='SubjectPod:MathWorldData__Show details' />
-      </states>
-    </pod>
-    </queryresult>
+    <queryresult success='true'\n    error='false'\n    numpods='6'\n    datatypes='Math'\n    timedout=''\n    timedoutpods=''\n    timing='0.848'\n    parsetiming='0.121'\n    parsetimedout='false'\n    recalculate=''\n    id='MSPa81391fbdd7ef892gdfeg000041bc1g2ag0gc1ff9'\n    host='http://www4f.wolframalpha.com'\n    server='47'\n    related='http://www4f.wolframalpha.com/api/v2/relatedQueries.jsp?id=MSPa81401fbdd7ef892gdfeg00005ege040dghdf77ca682927807421097904'\n    version='2.6'>\n <pod title='Input'\n     scanner='Identity'\n     id='Input'\n     position='100'\n     error='false'\n     numsubpods='1'>\n  <subpod title=''>\n   <plaintext>1 + 1</plaintext>\n  </subpod>\n  <expressiontypes>\n   <expressiontype name='Default' />\n  </expressiontypes>\n </pod>\n <pod title='Result'\n     scanner='Simplification'\n     id='Result'\n     position='200'\n     error='false'\n     numsubpods='1'\n     primary='true'>\n  <subpod title=''>\n   <plaintext>2</plaintext>\n  </subpod>\n  <expressiontypes>\n   <expressiontype name='Default' />\n  </expressiontypes>\n  <states count='1'>\n   <state name='Step-by-step solution'\n       input='Result__Step-by-step solution'\n       stepbystep='true' />\n  </states>\n </pod>\n <pod title='Number line'\n     scanner='NumberLine'\n     id='NumberLine'\n     position='300'\n     error='false'\n     numsubpods='1'>\n  <subpod title=''>\n   <plaintext></plaintext>\n  </subpod>\n  <expressiontypes>\n   <expressiontype name='1DMathPlot' />\n  </expressiontypes>\n </pod>\n <pod title='Number name'\n     scanner='Integer'\n     id='NumberName'\n     position='400'\n     error='false'\n     numsubpods='1'>\n  <subpod title=''>\n   <plaintext>two</plaintext>\n  </subpod>\n  <expressiontypes>\n   <expressiontype name='Default' />\n  </expressiontypes>\n </pod>\n <pod title='Manipulatives illustration'\n     scanner='Arithmetic'\n     id='Illustration'\n     position='500'\n     error='false'\n     numsubpods='1'>\n  <subpod title=''>\n   <plaintext> | + | | = | \n1 | | 1 | | 2</plaintext>\n  </subpod>\n  <expressiontypes>\n   <expressiontype name='Default' />\n  </expressiontypes>\n </pod>\n <pod title='Typical human computation times'\n     scanner='Arithmetic'\n     id='TypicalHumanComputationTimes'\n     position='600'\n     error='false'\n     numsubpods='1'>\n  <subpod title=''>\n   <microsources>\n    <microsource>HumanComputationQuery</microsource>\n   </microsources>\n   <plaintext>age 6: 3.2 seconds | age 8: 1.8 seconds | age 10: 1.2 seconds | \nage 18: 0.83 seconds\n(ignoring concentration, repetition, variations in education, etc.)</plaintext>\n  </subpod>\n  <expressiontypes>\n   <expressiontype name='Grid' />\n  </expressiontypes>\n  <states count='1'>\n   <state name='More details'\n       input='TypicalHumanComputationTimes__More details' />\n  </states>\n </pod>\n <sources count='1'>\n  <source url='http://www.wolframalpha.com/sources/HumanComputationQuerySourceInformationNotes.html'\n      text='Human computation query' />\n </sources>\n</queryresult>
     """
   end
 end

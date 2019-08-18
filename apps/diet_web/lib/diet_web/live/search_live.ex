@@ -1,7 +1,7 @@
 defmodule DietWeb.SearchLive do
   use Phoenix.LiveView
 
-  @task_timeout :timer.seconds(10000)
+  @task_timeout :timer.seconds(10_000)
 
   def render(assigns) do
     DietWeb.SearchView.render("index.html", assigns)

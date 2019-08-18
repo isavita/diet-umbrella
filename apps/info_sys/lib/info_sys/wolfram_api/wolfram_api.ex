@@ -1,7 +1,5 @@
 defmodule InfoSys.WolframApi do
-  def fetch_xml(query), do: wolfram_api().fetch_xml(query)
+  @wolfram_api Application.fetch_env!(:info_sys, :wolfram_api)[:adapter]
 
-  defp wolfram_api do
-    Application.fetch_env!(:info_sys, :wolfram_api)[:adapter]
-  end
+  def fetch_xml(query), do: @wolfram_api.fetch_xml(query)
 end

@@ -4,7 +4,6 @@ defmodule DietWeb.NewsfeedLive do
   alias Diet.Multimedia
 
   def render(assigns) do
-    IO.inspect(assigns)
     DietWeb.PageView.render("newsfeed.html", assigns)
   end
 
