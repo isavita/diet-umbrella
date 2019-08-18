@@ -31,14 +31,20 @@ defmodule DietWeb.QualityControl.Server do
   end
 
   defp frequency_ms do
-    Application.get_env(:diet_web, :runtime, %{})[:quality_check_frequency] || 600_000
+    fetch_runtime_config(:quality_check_frequency, "600000")
   end
 
   defp lower_quality_report_count do
-    Application.get_env(:diet_web, :runtime, %{})[:lower_quality_report_count] || 2
+    fetch_runtime_config(:lower_quality_report_count, "2")
   end
 
   defp spam_report_count do
-    Application.get_env(:diet_web, :runtime, %{})[:spam_report_count] || 2
+    fetch_runtime_config(:spam_report_count, "2")
+  end
+
+  defp fetch_runtime_config(key, default) do
+    Application.get_env(:diet_web, :runtime, [])
+    |> Keyword.get(key, default)
+    |> String.to_integer()
   end
 end
