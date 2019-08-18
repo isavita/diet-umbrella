@@ -120,7 +120,9 @@ defmodule Diet.MultimediaTest do
 
       user_id = user.id
       video_id = video.id
-      assert {:ok, %Report{user_id: user_id, video_id: video_id, spam_or_abuse: true}} = Multimedia.report_video(user_id, video_id, @valid_attrs)
+
+      assert {:ok, %Report{user_id: user_id, video_id: video_id, spam_or_abuse: true}} =
+               Multimedia.report_video(user_id, video_id, @valid_attrs)
     end
   end
 end

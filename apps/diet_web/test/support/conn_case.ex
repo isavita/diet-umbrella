@@ -21,7 +21,7 @@ defmodule DietWeb.ConnCase do
       use Phoenix.ConnTest
 
       alias DietWeb.Router.Helpers, as: Routes
-      alias Diet.Support.Factory
+      alias DietWeb.Support.Factory
 
       # The default endpoint for testing
       @endpoint DietWeb.Endpoint

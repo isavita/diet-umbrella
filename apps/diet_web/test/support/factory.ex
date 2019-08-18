@@ -1,4 +1,4 @@
-defmodule Diet.Support.Factory do
+defmodule DietWeb.Support.Factory do
   alias Diet.{Accounts, Multimedia}
 
   @user_attrs %{
@@ -29,6 +29,13 @@ defmodule Diet.Support.Factory do
 
     video
   end
+
+  def login(%{conn: conn, login_as: username}) do
+    user = Diet.Support.Factory.create_user(username: username)
+    {Plug.Conn.assign(conn, :current_user, user), user}
+  end
+
+  def login(%{conn: conn}), do: {conn, :logged_out}
 
   defp put_random_username(attrs) do
     Map.put(attrs, :username, "jane#{System.unique_integer([:positive])}")
