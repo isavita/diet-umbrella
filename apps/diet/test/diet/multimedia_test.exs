@@ -37,6 +37,17 @@ defmodule Diet.MultimediaTest do
       assert Enum.member?(video_ids, video2.id)
     end
 
+    test "list_popular_videos/0 do not return low_quality videos" do
+      video = Factory.create_video(%{published_at: DateTime.utc_now()})
+
+      video_ids = Enum.map(Multimedia.list_popular_videos(), & &1.id)
+      assert Enum.member?(video_ids, video.id)
+
+      Multimedia.mark_as_low_quality_video(video)
+
+      assert Multimedia.list_popular_videos() == []
+    end
+
     test "list_user_videos/0 returns all user's videos" do
       owner = Factory.create_user()
       video1 = Factory.create_video(@valid_attrs, owner)

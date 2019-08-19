@@ -28,10 +28,15 @@ defmodule Diet.Multimedia do
 
   def list_popular_videos do
     Video
+    |> reject_low_quality_query()
     |> popular_query()
     |> published_query(limit: @popular_videos_count)
     |> preload(:user)
     |> Repo.all()
+  end
+
+  defp reject_low_quality_query(queryable) do
+    from(v in queryable, where: v.low_quality != true)
   end
 
   defp popular_query(queryable) do
@@ -92,6 +97,10 @@ defmodule Diet.Multimedia do
 
     from(v in Video, where: v.id in ^videos)
     |> Repo.update_all(set: [low_quality: true])
+  end
+
+  def mark_as_low_quality_video(video) do
+    update_video(video, %{low_quality: true})
   end
 
   defp reported_videos_query(reports_count) do
