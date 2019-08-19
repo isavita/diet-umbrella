@@ -13,6 +13,6 @@ defmodule Diet.Repo.Migrations.AddReportsTable do
 
     create index(:reports, [:user_id])
     create index(:reports, [:video_id])
-    create unique_index(:reports, [:user_id, :video_id], name: :user_video_unique_index)
+    create unique_index(:reports, [:user_id, :video_id], name: :reports_user_id_video_id_index)
   end
 end

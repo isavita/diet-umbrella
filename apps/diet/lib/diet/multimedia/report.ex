@@ -17,7 +17,7 @@ defmodule Diet.Multimedia.Report do
     report
     |> cast(attrs, [:spam_or_abuse, :not_interested])
     |> unique_constraint(:user,
-      name: :user_video_unique_index,
+      name: :reports_user_id_video_id_index,
       message: "Report already submitted"
     )
   end
