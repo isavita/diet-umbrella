@@ -10,6 +10,7 @@ defmodule DietWeb.NewsfeedLive do
   def mount(%{current_user: current_user, csrf_token: csrf_token}, socket) do
     if connected?(socket), do: Multimedia.subscribe()
     videos = Multimedia.list_popular_videos()
+    newest_videos = Multimedia.list_newest_videos(10)
 
     socket =
       assign(
@@ -17,6 +18,7 @@ defmodule DietWeb.NewsfeedLive do
         current_user: current_user,
         csrf_token: csrf_token,
         videos: videos,
+        newest_videos: newest_videos,
         videos_like_counts: videos_like_counts(videos),
         report_modal_open: false
       )
@@ -57,7 +59,14 @@ defmodule DietWeb.NewsfeedLive do
   end
 
   def handle_info({Multimedia, {:video, _}, _}, socket) do
-    {:noreply, assign(socket, videos: Multimedia.list_popular_videos())}
+    {
+      :noreply,
+      assign(
+        socket,
+        videos: Multimedia.list_popular_videos(),
+        newest_videos: Multimedia.list_newest_videos()
+      )
+    }
   end
 
   defp videos_like_counts(videos) do

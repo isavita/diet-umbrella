@@ -26,6 +26,14 @@ defmodule Diet.Multimedia do
     |> Repo.all()
   end
 
+  def list_newest_videos(n \\ 5) do
+    Video
+    |> reject_low_quality_query()
+    |> published_query(limit: n)
+    |> order_by([v], [desc: v.published_at])
+    |> Repo.all()
+  end
+
   def list_popular_videos do
     Video
     |> reject_low_quality_query()

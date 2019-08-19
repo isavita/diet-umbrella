@@ -1,7 +1,7 @@
 defmodule DietWeb.QualityControl.Server do
   use GenServer
 
-  alias  Diet.Multimedia
+  alias Diet.Multimedia
 
   def start_link(opts) do
     opts = Keyword.put_new(opts, :name, __MODULE__)
