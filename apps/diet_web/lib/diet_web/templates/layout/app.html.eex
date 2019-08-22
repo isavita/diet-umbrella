@@ -22,6 +22,7 @@
       <p class="alert alert-danger"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
+    <%= render DietWeb.LayoutView, "footer.html", assigns %>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
