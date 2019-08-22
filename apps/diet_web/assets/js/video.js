@@ -29,7 +29,9 @@ let Video = {
     presence.onSync(() => {
       userList.innerHTML = presence.list((id, {user: user, metas: [first, ...rest]}) => {
         const count = rest.length + 1;
-        return `<li>${user.username}: (${count})</li>`;
+        return `<li class="list-group-item d-flex justify-content-between align-items-center">
+          ${user.username} <span class="badge badge-secondary badge-pill">${count}</span>
+        </li>`;
       }).join("")
     });
 

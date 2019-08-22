@@ -1,26 +1,22 @@
-<div class="row">
-  <div class="column column-30">
-    <h1><%= @video.title %></h1>
+<div class="row my-3">
+  <div class="embed-responsive embed-responsive-16by9 col-md-9">
     <%= content_tag :div, id: "video", data: [id: @video.id, player_id: player_id(@video)] do %>
     <% end%>
-    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/packs/player.css") %>"/>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/packs/video.js") %>"></script>
   </div>
-  <div class="column annotations">
+  <div class="col-md-3">
     <h3>Annotations</h3>
-    <div id="msg-container">
-    </div>
-    <div>
-      <textarea id="msg-input" rows="3" placeholder="Comment..."></textarea>
-      <button id="msg-submit" class="button column" type="submit">Post</button>
+    <div id="msg-container"></div>
+    <div class="form-group">
+      <textarea id="msg-input" rows="3" class="form-control" placeholder="Comment..."></textarea>
+      <button id="msg-submit" type="button" class="btn btn-primary mt-2">Post</button>
     </div>
   </div>
 </div>
-<hr/>
+<hr />
 <div class="row">
-  <div class="column">
-    <h3>Users</h3>
-    <ul id="user-list">
-    </ul>
+  <div class="col-md-9">
+    <h2>Users watching the video</h2>
+    <ul id="user-list" class="list-group"></ul>
   </div>
 </div>
