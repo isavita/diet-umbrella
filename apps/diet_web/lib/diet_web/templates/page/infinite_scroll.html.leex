@@ -1,10 +1,13 @@
 <div class="text-center">
+  <%= if @next_cursor do %>
   <a href="#" id="infinite-scroll-target" phx-click="load-more" phx-value=<%= @next_cursor %>>
     <div class="spinner-border spinner-border-sm text-secondary d-none" role="status">
       <span class="sr-only">Loading...</span>
     </div>
   </a>
+  <% end %>
 </div>
+
 <script>
   function triggerClick(entries, observer) {
     let elem = entries[0];
