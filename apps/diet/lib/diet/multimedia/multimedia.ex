@@ -30,7 +30,7 @@ defmodule Diet.Multimedia do
     Video
     |> reject_low_quality_query()
     |> published_query(limit: n)
-    |> order_by([v], [desc: v.published_at])
+    |> order_by([v], desc: v.published_at)
     |> Repo.all()
   end
 
@@ -41,6 +41,17 @@ defmodule Diet.Multimedia do
     |> published_query(limit: @popular_videos_count)
     |> preload(:user)
     |> Repo.all()
+  end
+
+  def list_videos_paginated(opts) do
+    opts = Keyword.put_new(opts, :cursor_fields, [:published_at])
+
+    Video
+    |> reject_low_quality_query()
+    |> published_query()
+    |> order_by(desc: :published_at)
+    |> preload(:user)
+    |> Repo.paginate(opts)
   end
 
   defp reject_low_quality_query(queryable) do
