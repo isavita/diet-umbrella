@@ -9,6 +9,7 @@
       <%= for video <- @videos do %>
         <%= render "video.html", Map.put(assigns, :video, video) %>
       <% end %>
+      <%= render "infinite_scroll.html", assigns %>
     </div>
   </div>
 </div>

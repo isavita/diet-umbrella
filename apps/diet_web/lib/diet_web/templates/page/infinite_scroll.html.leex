@@ -1,0 +1,18 @@
+<div class="text-center">
+  <a href="#" id="infinite-scroll-target" phx-click="load-more" phx-value=<%= @next_cursor %>>
+    <div class="spinner-border spinner-border-sm text-secondary d-none" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </a>
+</div>
+<script>
+  function triggerClick(entries, observer) {
+    let elem = entries[0];
+
+    if(elem && elem.isIntersecting) {
+      elem.target.click();
+      elem.target.children[0].classList.remove('d-none');
+    }
+  };
+  (new IntersectionObserver(triggerClick, {root: null, threshold: 1})).observe(document.querySelector('#infinite-scroll-target'));
+</script>

@@ -3,14 +3,18 @@ defmodule DietWeb.NewsfeedLive do
 
   alias Diet.Multimedia
 
+  @videos_per_scroll 5
+  @newest_videos_count 10
+
   def render(assigns) do
     DietWeb.PageView.render("newsfeed.html", assigns)
   end
 
   def mount(%{current_user: current_user, csrf_token: csrf_token}, socket) do
     if connected?(socket), do: Multimedia.subscribe()
-    videos = Multimedia.list_popular_videos()
-    newest_videos = Multimedia.list_newest_videos(10)
+
+    {videos, next_cursor} = prepend_videos([], nil)
+    newest_videos = Multimedia.list_newest_videos(@newest_videos_count)
 
     socket =
       assign(
@@ -18,6 +22,7 @@ defmodule DietWeb.NewsfeedLive do
         current_user: current_user,
         csrf_token: csrf_token,
         videos: videos,
+        next_cursor: next_cursor,
         newest_videos: newest_videos,
         videos_like_counts: videos_like_counts(videos),
         report_modal_open: false
@@ -58,12 +63,30 @@ defmodule DietWeb.NewsfeedLive do
     {:noreply, assign(socket, report_modal_open: true)}
   end
 
-  def handle_info({Multimedia, {:video, _}, _}, socket) do
+  def handle_event("load-more", "", socket), do: {:noreply, socket}
+
+  def handle_event("load-more", cursor, socket) do
+    {videos, next_cursor} = prepend_videos(socket.assigns.videos, cursor)
+
     {
       :noreply,
       assign(
         socket,
-        videos: Multimedia.list_popular_videos(),
+        videos: videos,
+        next_cursor: next_cursor
+      )
+    }
+  end
+
+  def handle_info({Multimedia, {:video, _}, _}, socket) do
+    {videos, next_cursor} = prepend_videos([], nil)
+
+    {
+      :noreply,
+      assign(
+        socket,
+        videos: videos,
+        next_cursor: next_cursor,
         newest_videos: Multimedia.list_newest_videos()
       )
     }
@@ -96,5 +119,19 @@ defmodule DietWeb.NewsfeedLive do
     else
       0
     end
+  end
+
+  defp prepend_videos(videos, next_cursor) do
+    %{entries: old_videos, metadata: metadata} = next_videos(next_cursor)
+
+    {videos ++ old_videos, metadata.after}
+  end
+
+  defp next_videos(next_cursor) do
+    Multimedia.list_videos_paginated(
+      after: next_cursor,
+      cursor_fields: [{:published_at, :desc}],
+      limit: @videos_per_scroll
+    )
   end
 end
