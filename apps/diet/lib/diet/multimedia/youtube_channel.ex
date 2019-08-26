@@ -5,7 +5,6 @@ defmodule Diet.Multimedia.YoutubeChannel do
 
   alias Diet.Multimedia.Embeds.YoutubeVideo
 
-
   schema "youtube_channels" do
     field :uid, :string
     field :name, :string

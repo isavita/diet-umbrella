@@ -1,4 +1,4 @@
-defmodule DietWeb.YoutubeWebApi.YoutubeWebInMemory do
+defmodule AutoPublish.YoutubeWebApi.YoutubeWebInMemory do
   def list_channel_videos(_channel_id) do
     %{
       "etag" => "\"8jEFfXBrqiSrcF6Ee7MQuz8XuAM/ltTdpwzC8d1NsWEYL-0NgK6uWiM\"",

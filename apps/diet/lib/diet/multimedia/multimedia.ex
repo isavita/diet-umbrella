@@ -175,6 +175,8 @@ defmodule Diet.Multimedia do
 
   def get_category!(id), do: Repo.get!(Category, id)
 
+  def category_by_name(name), do: Repo.get_by(Category, name: name)
+
   def create_category!(attrs) do
     %Category{}
     |> Category.changeset(attrs)
@@ -201,6 +203,10 @@ defmodule Diet.Multimedia do
 
   def list_youtube_channel, do: Repo.all(YoutubeChannel)
 
+  def list_active_youtube_channel do
+    Repo.all(from(yc in YoutubeChannel, where: yc.active == true))
+  end
+
   def get_youtube_channel(id) do
     Repo.get(YoutubeChannel, id)
   end
@@ -209,6 +215,12 @@ defmodule Diet.Multimedia do
     %YoutubeChannel{}
     |> YoutubeChannel.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def update_youtube_channel(%YoutubeChannel{} = channel, attrs) do
+    channel
+    |> YoutubeChannel.changeset(attrs)
+    |> Repo.update()
   end
 
   def list_annotations(%Video{} = video, since_id \\ 0) do
