@@ -1,4 +1,4 @@
-defmodule DietWeb.YoutubeWebApi.YoutubeWebHTTPClient do
+defmodule AutoPublish.YoutubeWebApi.YoutubeWebHTTPClient do
   @json Phoenix.json_library()
   @endpoint "https://www.googleapis.com/youtube/v3"
 
@@ -45,7 +45,7 @@ defmodule DietWeb.YoutubeWebApi.YoutubeWebHTTPClient do
   end
 
   defp youtube_web_config do
-    Application.fetch_env!(:diet_web, :youtube_web_api)
+    Application.fetch_env!(:auto_publish, :youtube_web_api)
   end
 
   # TODO: Delete if not needed

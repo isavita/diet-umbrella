@@ -136,4 +136,24 @@ defmodule Diet.MultimediaTest do
                Multimedia.report_video(user_id, video_id, @valid_attrs)
     end
   end
+
+  describe "youtube_channel" do
+    alias Diet.Multimedia.YoutubeChannel
+
+    @valid_attrs %{uid: "UARLOLGZl2-QTbJfLmAKgeAw", name: "Jane Doe", active: true}
+    @invalid_attrs %{}
+
+    test "create_youtube_channel/1 with valid data creates a video" do
+      assert {:ok, %YoutubeChannel{} = channel} = Multimedia.create_youtube_channel(@valid_attrs)
+
+      assert channel.uid == @valid_attrs[:uid]
+      assert channel.name == @valid_attrs[:name]
+      assert channel.active
+    end
+
+    test "create_youtube_channel/1  with no uid returns error changeset" do
+      assert {:error, changeset} = Multimedia.create_youtube_channel(@invalid_attrs)
+      assert "can't be blank" in errors_on(changeset).uid
+    end
+  end
 end

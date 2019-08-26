@@ -26,8 +26,8 @@ config :info_sys, :wolfram_api,
   app_id: "XXXXX"
 
 # Configure http client for youtube web API
-config :diet_web, :youtube_web_api,
-  adapter: DietWeb.YoutubeWebApi.YoutubeWebInMemory,
+config :auto_publish, :youtube_web_api,
+  adapter: AutoPublish.YoutubeWebApi.YoutubeWebInMemory,
   api_key: "XXXXX"
 
 # Configure http client for contextual web API

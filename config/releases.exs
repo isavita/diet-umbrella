@@ -32,8 +32,8 @@ config :info_sys, :wolfram_api,
   app_id: System.fetch_env!("WOLFRAM_APP_ID")
 
 # Configure http client for youtube web API
-config :diet_web, :youtube_web_api,
-  adapter: DietWeb.YoutubeWebApi.YoutubeWebHTTPClient,
+config :auto_publish, :youtube_web_api,
+  adapter: AutoPublish.YoutubeWebApi.YoutubeWebHTTPClient,
   api_key: System.get_env("YOUTUBE_API_KEY")
 
 # Configure http client for contextual web API
