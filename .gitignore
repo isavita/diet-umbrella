@@ -26,8 +26,9 @@ erl_crash.dump
 .env
 .env.*
 
-# Ignore .iex.exs
+# Ignore .iex.exs and asdf files
 .iex.exs
+.tool-versions
 
 # Ignore only on main level of the project to fix bug with vim-elm
 elm.json

@@ -2,6 +2,7 @@
 /assets/elm-stuff/
 # Ignore elixir files
 .iex.exs
+.tool-versions
 # Ignore elm.json at root because uses assets/elm.json instead
 elm.json
 _build/
