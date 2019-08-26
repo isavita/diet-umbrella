@@ -7,7 +7,7 @@ defmodule Diet.Multimedia do
 
   alias Diet.Accounts.User
   alias Diet.Repo
-  alias Diet.Multimedia.{Annotation, Category, Like, Report, Video}
+  alias Diet.Multimedia.{Annotation, Category, Like, Report, Video, YoutubeChannel}
 
   @popular_videos_count 20
   @list_query_limit 500
@@ -198,6 +198,18 @@ defmodule Diet.Multimedia do
   end
 
   def get_like!(user_id, video_id), do: Repo.get_by!(Like, user_id: user_id, video_id: video_id)
+
+  def list_youtube_channel, do: Repo.all(YoutubeChannel)
+
+  def get_youtube_channel(id) do
+    Repo.get(YoutubeChannel, id)
+  end
+
+  def create_youtube_channel(attrs) do
+    %YoutubeChannel{}
+    |> YoutubeChannel.changeset(attrs)
+    |> Repo.insert()
+  end
 
   def list_annotations(%Video{} = video, since_id \\ 0) do
     Repo.all(
