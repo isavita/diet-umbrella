@@ -1,5 +1,4 @@
 defmodule AutoPublish.YoutubeWebApi.YoutubeWebHTTPClient do
-  @json Phoenix.json_library()
   @endpoint "https://www.googleapis.com/youtube/v3"
 
   def list_channel_videos(channel_id) do
@@ -10,7 +9,7 @@ defmodule AutoPublish.YoutubeWebApi.YoutubeWebHTTPClient do
 
   defp get_channel_info(channel_id) do
     case HTTPoison.get(channel_by_id(channel_id)) do
-      {:ok, %{body: body}} -> @json.decode!(body)
+      {:ok, %{body: body}} -> Jason.decode!(body)
       _ -> :error
     end
   end
@@ -29,7 +28,7 @@ defmodule AutoPublish.YoutubeWebApi.YoutubeWebHTTPClient do
 
   defp get_videos_info(uploads_id) do
     case HTTPoison.get(videos_by_uploads_id(uploads_id)) do
-      {:ok, %{body: body}} -> @json.decode!(body)
+      {:ok, %{body: body}} -> Jason.decode!(body)
       _ -> :error
     end
   end
