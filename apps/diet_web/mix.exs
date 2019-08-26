@@ -46,6 +46,7 @@ defmodule DietWeb.MixProject do
       {:gettext, "~> 0.11"},
       {:diet, in_umbrella: true},
       {:info_sys, in_umbrella: true},
+      {:auto_publish, in_umbrella: true},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:fast_sitemap, "~> 1.0-pre"},
