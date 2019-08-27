@@ -124,7 +124,7 @@ defmodule DietWeb.NewsfeedLive do
   defp prepend_videos(videos, next_cursor) do
     %{entries: old_videos, metadata: metadata} = next_videos(next_cursor)
 
-    {videos ++ old_videos, metadata.after}
+    {Enum.uniq(videos ++ old_videos), metadata.after}
   end
 
   defp next_videos(next_cursor) do
