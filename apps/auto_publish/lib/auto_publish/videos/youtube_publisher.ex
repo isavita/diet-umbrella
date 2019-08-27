@@ -1,13 +1,15 @@
 defmodule AutoPublish.Videos.YoutubePublisher do
   alias AutoPublish.YoutubeWebApi
-  alias Diet.{Accounts, Multimedia}
+  alias Diet.{Accounts, Multimedia, Repo}
 
   @admin_username "weighthater"
   @default_category "Fitness"
 
   def publish_new_videos(count \\ 2) do
     Multimedia.list_active_youtube_channel()
-    |> Enum.each(&publish_channel_unpublished_videos(&1, count))
+    |> Enum.each(fn channel ->
+      Task.start(fn -> publish_channel_unpublished_videos(channel, count) end)
+    end)
   end
 
   defp publish_channel_unpublished_videos(channel, count) do
@@ -34,13 +36,17 @@ defmodule AutoPublish.Videos.YoutubePublisher do
 
   defp publish_videos(channel, videos, unpublished_videos, user, category, count) do
     videos_to_publish = Enum.take(unpublished_videos, count)
-    create_videos(videos_to_publish, user, category)
-    updated_videos = mark_as_published(videos, videos_to_publish)
 
-    Multimedia.update_youtube_channel(
-      channel,
-      %{videos: Enum.map(updated_videos, &Map.from_struct/1)}
-    )
+    Repo.transaction(fn ->
+      :ok = create_videos(videos_to_publish, user, category)
+      updated_videos = mark_as_published(videos, videos_to_publish)
+
+      {:ok, _} =
+        Multimedia.update_youtube_channel(
+          channel,
+          %{videos: Enum.map(updated_videos, &Map.from_struct/1)}
+        )
+    end)
   end
 
   defp mark_as_published(videos, published_videos) do

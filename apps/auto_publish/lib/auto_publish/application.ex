@@ -9,6 +9,7 @@ defmodule AutoPublish.Application do
     children = [
       # Starts a worker by calling: AutoPublish.Worker.start_link(arg)
       # {AutoPublish.Worker, arg}
+      {AutoPublish.Videos.YoutubeScheduler, [[]]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

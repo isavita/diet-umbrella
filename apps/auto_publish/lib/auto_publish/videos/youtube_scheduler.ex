@@ -17,7 +17,7 @@ defmodule AutoPublish.Videos.YoutubeScheduler do
   end
 
   @impl true
-  def handle_info(:publish_videos, _from, state) do
+  def handle_info(:publish_videos, state) do
     YoutubePublisher.publish_new_videos()
 
     schedule_publish_videos()
