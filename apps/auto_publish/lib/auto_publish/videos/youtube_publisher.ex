@@ -5,14 +5,18 @@ defmodule AutoPublish.Videos.YoutubePublisher do
   @admin_username "weighthater"
   @default_category "Fitness"
 
-  def publish_new_videos(count \\ 2) do
+  def publish_new_videos(opts \\ []) do
+    opts = Keyword.put_new(opts, :video_count, 2)
+
     Multimedia.list_active_youtube_channel()
+    |> Enum.shuffle()
+    |> Enum.take(opts[:channel_count] || 3)
     |> Enum.each(fn channel ->
-      Task.start(fn -> publish_channel_unpublished_videos(channel, count) end)
+      Task.start(fn -> publish_channel_unpublished_videos(channel, opts) end)
     end)
   end
 
-  defp publish_channel_unpublished_videos(channel, count) do
+  defp publish_channel_unpublished_videos(channel, opts) do
     user = Accounts.user_by_username(@admin_username)
     category = Multimedia.category_by_name(@default_category)
     videos = channel.videos
@@ -27,26 +31,21 @@ defmodule AutoPublish.Videos.YoutubePublisher do
         })
 
         channel = Multimedia.get_youtube_channel(channel.id)
-        publish_videos(channel, channel.videos, channel.videos, user, category, count)
+        publish_videos(channel, channel.videos, channel.videos, user, category, opts)
 
       unpublished_videos ->
-        publish_videos(channel, videos, unpublished_videos, user, category, count)
+        publish_videos(channel, videos, unpublished_videos, user, category, opts)
     end
   end
 
-  defp publish_videos(channel, videos, unpublished_videos, user, category, count) do
-    videos_to_publish = Enum.take(unpublished_videos, count)
-
-    Repo.transaction(fn ->
-      :ok = create_videos(videos_to_publish, user, category)
-      updated_videos = mark_as_published(videos, videos_to_publish)
-
-      {:ok, _} =
-        Multimedia.update_youtube_channel(
-          channel,
-          %{videos: Enum.map(updated_videos, &Map.from_struct/1)}
-        )
-    end)
+  defp publish_videos(channel, videos, unpublished_videos, user, category, opts) do
+    videos_to_publish = Enum.take(unpublished_videos, opts[:video_count])
+    create_videos(videos_to_publish, user, category)
+    updated_videos = mark_as_published(videos, videos_to_publish)
+    Multimedia.update_youtube_channel(
+      channel,
+      %{videos: Enum.map(updated_videos, &Map.from_struct/1)}
+    )
   end
 
   defp mark_as_published(videos, published_videos) do
