@@ -3,6 +3,8 @@ defmodule Diet.Multimedia.Like do
   import Ecto.Changeset
 
   schema "likes" do
+    field :likeable_id, :integer
+    field :likeable_type, :string
     belongs_to :user, Diet.Accounts.User
     belongs_to :video, Diet.Multimedia.Video
 
@@ -12,6 +14,6 @@ defmodule Diet.Multimedia.Like do
   @doc false
   def changeset(like, attrs) do
     like
-    |> cast(attrs, [])
+    |> cast(attrs, [:likeable_id, :likeable_type])
   end
 end

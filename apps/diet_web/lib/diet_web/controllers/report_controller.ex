@@ -5,10 +5,10 @@ defmodule DietWeb.ReportController do
 
   def create(conn, %{"report" => params}) do
     user_id = conn.assigns.current_user.id
-    video_id = String.to_integer(params["video_id"])
+    reportable_id = String.to_integer(params["reportable_id"])
     attrs = %{params["reason"] => true}
 
-    case Multimedia.report_video(user_id, video_id, attrs) do
+    case Multimedia.report(user_id, reportable_id, params["reportable_type"], attrs) do
       {:ok, _report} ->
         conn
         |> put_flash(:info, "The post has been reported!")

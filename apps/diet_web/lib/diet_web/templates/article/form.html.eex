@@ -1,0 +1,47 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :url %>
+    <%= text_input f, :url, class: "form-control" %>
+    <%= error_tag f, :url %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :title %>
+    <%= text_input f, :title, class: "form-control" %>
+    <%= error_tag f, :title %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :description %>
+    <%= textarea f, :description, class: "form-control" %>
+    <%= error_tag f, :description %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :type %>
+    <%= select f, :type, type_select_options(), prompt: "Choose a type", class: "form-control" %>
+    <%= error_tag f, :type %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :category_id %>
+    <%= select f, :category_id, category_select_options(@categories), prompt: "Choose a category", class: "form-control" %>
+    <%= error_tag f, :category_id %>
+  </div>
+
+  <div class="form-check">
+    <%= checkbox f, :published_at, checked_value: default_published_at(f), unchecked_value: nil, class: "form-check-input" %>
+    <%= label f, :published_at, "Public", class: "form-check-label" %>
+    <%= error_tag f, :published_at %>
+  </div>
+
+  <div class="text-right">
+    <%= submit "Save", class: "btn btn-primary btn-lg mt-3" %>
+  </div>
+<% end %>

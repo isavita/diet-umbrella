@@ -42,6 +42,7 @@ defmodule AutoPublish.Videos.YoutubePublisher do
     videos_to_publish = Enum.take(unpublished_videos, opts[:video_count])
     create_videos(videos_to_publish, user, category)
     updated_videos = mark_as_published(videos, videos_to_publish)
+
     Multimedia.update_youtube_channel(
       channel,
       %{videos: Enum.map(updated_videos, &Map.from_struct/1)}

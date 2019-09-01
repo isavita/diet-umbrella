@@ -14,8 +14,14 @@ defmodule Diet.Multimedia.Video do
     belongs_to :user, Diet.Accounts.User
     belongs_to :category, Diet.Multimedia.Category
     has_many :annotations, Diet.Multimedia.Annotation
-    has_many :likes, Diet.Multimedia.Like
-    has_many :reports, Diet.Multimedia.Report
+
+    has_many :likes, Diet.Multimedia.Like,
+      foreign_key: :likeable_id,
+      where: [likeable_type: "Video"]
+
+    has_many :reports, Diet.Multimedia.Report,
+      foreign_key: :reportable_id,
+      where: [reportable_type: "Video"]
 
     timestamps()
   end

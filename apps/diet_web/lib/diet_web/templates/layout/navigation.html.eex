@@ -14,6 +14,7 @@
           <li class="nav-item"><%= link "Search", to: Routes.live_path(@conn, DietWeb.SearchLive), class: "nav-link" %></li>
           <li class="nav-item"><%= link "News Feed", to: Routes.page_path(@conn, :newsfeed), class: "nav-link"%></li>
           <li class="nav-item"><%= link "My Videos", to: Routes.video_path(@conn, :index), class: "nav-link" %></li>
+          <li class="nav-item"><%= link "My Articles", to: Routes.article_path(@conn, :index), class: "nav-link" %></li>
           <%= if @current_user.admin do %>
             <li class="nav-item">
               <%= link "All Users", to: Routes.user_path(@conn, :index), class: "nav-link" %>
