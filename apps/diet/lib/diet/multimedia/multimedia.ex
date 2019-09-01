@@ -7,7 +7,7 @@ defmodule Diet.Multimedia do
 
   alias Diet.Accounts.User
   alias Diet.Repo
-  alias Diet.Multimedia.{Annotation, Category, Like, Report, Video, YoutubeChannel}
+  alias Diet.Multimedia.{Annotation, Article, Category, Like, Report, Video, YoutubeChannel}
 
   @popular_videos_count 20
   @list_query_limit 500
@@ -16,6 +16,42 @@ defmodule Diet.Multimedia do
 
   def subscribe do
     Phoenix.PubSub.subscribe(Diet.PubSub, @topic)
+  end
+
+  def list_articles, do: Repo.all(Article)
+
+  def list_newest_articles(limit \\ 10) do
+    Article
+    |> reject_low_quality_query()
+    |> published_query(limit: limit)
+    |> order_by([a], desc: a.published_at)
+    |> preload(:user)
+    |> Repo.all()
+  end
+
+  def get_article!(id), do: Repo.get!(Article, id)
+
+  def create_article(%User{} = user, attrs \\ %{}) do
+    %Article{}
+    |> Article.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user, user)
+    |> Repo.insert()
+  end
+
+  def update_article(%Article{} = article, attrs) do
+    article
+    |> Article.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_article(%Article{} = article), do: Repo.delete(article)
+
+  def supported_article_types do
+    Article.supported_types()
+  end
+
+  def change_article(%Article{} = article) do
+    Article.changeset(article, %{})
   end
 
   def list_videos, do: Repo.all(Video)
@@ -81,32 +117,30 @@ defmodule Diet.Multimedia do
     |> Repo.all()
   end
 
-  def videos_like_counts(video_ids) do
+  def like_counts(likeable_ids, likeable_type) do
     Repo.all(
       from(l in Like,
-        where: l.video_id in ^video_ids,
-        group_by: l.video_id,
-        select: {l.video_id, count(l.id)}
+        where: l.likeable_id in ^likeable_ids and l.likeable_type == ^likeable_type,
+        group_by: l.likeable_id,
+        select: {l.likeable_id, count(l.id)}
       )
     )
   end
 
-  def user_likes_video?(user_id, video_id) do
+  def user_likes?(user_id, likeable_id, likeable_type) do
     Repo.one(
       from(l in Like,
-        where: l.video_id == ^video_id and l.user_id == ^user_id,
+        where:
+          l.likeable_id == ^likeable_id and l.likeable_type == ^likeable_type and
+            l.user_id == ^user_id,
         select: l.id,
         limit: 1
       )
     ) != nil
   end
 
-  def video_likes_count(video_id) do
-    Repo.one(from(l in Like, where: l.video_id == ^video_id, select: count(l.id)))
-  end
-
-  def report_video(user_id, video_id, reasons) do
-    %Report{user_id: user_id, video_id: video_id}
+  def report(user_id, reportable_id, reportable_type, reasons) do
+    %Report{user_id: user_id, reportable_id: reportable_id, reportable_type: reportable_type}
     |> Report.changeset(reasons)
     |> Repo.insert()
   end
@@ -195,11 +229,20 @@ defmodule Diet.Multimedia do
     |> Repo.insert()
   end
 
-  def unlike_video(user_id, video_id) do
-    get_like!(user_id, video_id) |> Repo.delete()
+  def like(user_id, likeable_id, likeable_type) do
+    %Like{user_id: user_id, likeable_id: likeable_id, likeable_type: likeable_type}
+    |> Like.changeset(%{})
+    |> Repo.insert()
   end
 
-  def get_like!(user_id, video_id), do: Repo.get_by!(Like, user_id: user_id, video_id: video_id)
+  def unlike(user_id, likeable_id, likeable_type) do
+    get_like!(user_id, likeable_id, likeable_type)
+    |> Repo.delete()
+  end
+
+  def get_like!(user_id, likeable_id, likeable_type) do
+    Repo.get_by!(Like, user_id: user_id, likeable_id: likeable_id, likeable_type: likeable_type)
+  end
 
   def list_youtube_channel, do: Repo.all(YoutubeChannel)
 

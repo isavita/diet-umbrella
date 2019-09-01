@@ -12,7 +12,7 @@
 #
 alias Diet.Accounts.User
 alias Diet.Multimedia
-alias Diet.Multimedia.{Category, Like, Video, YoutubeChannel}
+alias Diet.Multimedia.{Article, Category, Like, Video, YoutubeChannel}
 alias Diet.Repo
 
 import Ecto.Query
@@ -63,6 +63,7 @@ end
 
 computer_science = Repo.get_by(Category, name: "Computer Science")
 jose = Repo.get_by(User, username: "jose")
+chris = Repo.get_by(User, username: "chris")
 
 videos = [
   %Video{
@@ -70,13 +71,63 @@ videos = [
     title: "IOHK Summit 2019 day 2",
     description: "IOHK Summit 2019 day 2 technical talks",
     category_id: computer_science.id,
+    published_at: DateTime.truncate(DateTime.utc_now(), :second),
     user: jose
+  },
+  %Video{
+    url: "https://www.youtube.com/watch?v=VsnQf7exv5I",
+    title: "Turing Award Lecture",
+    description:
+      ~s/We are pleased to announce that Geoffrey Hinton and Yann LeCun will deliver the Turing Lecture at FCRC.  Hinton's talk, entitled, "The Deep Learning Revolution" and LeCun's talk, entitled, "The Deep Learning Revolution: The Sequel," will be presented June 23rd from 5:15-6:30pm in Symphony Hall./,
+    category_id: computer_science.id,
+    published_at: DateTime.truncate(DateTime.utc_now(), :second),
+    user: jose
+  },
+  %Video{
+    url: "https://www.youtube.com/watch?v=HEpNiOM6lto&t=1s",
+    title: "Becoming a Kardashev Type I Civilization",
+    description:
+      ~s/The Kardashev Scale has become a standardized way of classifying (hypothetical) advanced civilizations. The lowest rank, Type 1, is still way ahead of us - but by how much? When will we achieve Type 1 status and exactly how could we plausibly do so? In this video, we go through some estimates of when humanity might become Type 1, and in particular what kind of energy sources we could harness to achieve this feat./,
+    category_id: computer_science.id,
+    published_at: DateTime.truncate(DateTime.utc_now(), :second),
+    user: chris
+  },
+  %Video{
+    url: "https://www.youtube.com/watch?v=bGcvv3683Os",
+    title: "Industrializing the Moon",
+    description:
+      ~s/We return to the Moon to explore ways to go beyond simple Lunar Bases to a full-fledged productive colony that can help us travel to other worlds and expand our own./,
+    category_id: computer_science.id,
+    user: chris
   }
 ]
 
 Enum.each(videos, &Repo.insert!(&1, on_conflict: :nothing))
 videos = Repo.all(from(v in Video, where: v.user_id == ^jose.id))
 Enum.each(videos, &Repo.insert!(%Like{user_id: jose.id, video_id: &1.id}, on_conflict: :nothing))
+
+# Add articles
+articles = [
+  %Article{
+    url: "https://www.technologyreview.com/lists/innovators-under-35/2016/pioneer/oriol-vinyals/",
+    title: "Oriol Vinyals, 33",
+    category_id: computer_science.id,
+    published_at: DateTime.truncate(DateTime.utc_now(), :second),
+    user: jose
+  },
+  %Article{
+    url: "https://arxiv.org/pdf/math/0303109.pdf",
+    title: "Ricci flow with surgery on three-manifolds",
+    description:
+      ~s{This is a technical paper, which is a continuation of math.DG/0211159. Here we construct Ricci flow with surgeries and verify most of the assertions, made in section 13 of that e-print; the exceptions are (1) the statement that manifolds that can collapse with local lower bound on sectional curvature are graph manifolds - this is deferred to a separate paper, since the proof has nothing to do with the Ricci flow, and (2) the claim on the lower bound for the volume of maximal horns and the smoothness of solutions from some time on, which turned out to be unjustified and, on the other hand, irrelevant for the other conclusions.},
+    type: "application/pdf",
+    category_id: computer_science.id,
+    published_at: DateTime.truncate(DateTime.utc_now(), :second),
+    user: chris
+  }
+]
+
+Enum.each(articles, &Repo.insert!(&1, on_conflict: :nothing))
 
 # Add youtube channels
 youtube_channels = %{
@@ -94,7 +145,7 @@ youtube_channels = %{
 }
 
 Enum.each(youtube_channels, fn {name, uid} ->
-  Repo.insert!(%YoutubeChannel{uid: uid, name: name, uid: uid, active: name == "biolayne"},
+  Repo.insert!(%YoutubeChannel{uid: uid, name: name, active: name == "biolayne"},
     on_conflict: :nothing
   )
 end)

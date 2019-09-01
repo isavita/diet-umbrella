@@ -9,7 +9,8 @@
       </div>
       <div class="modal-body">
         <%= form_for :report, Routes.report_path(DietWeb.Endpoint, :create), [csrf_token: @csrf_token], fn f -> %>
-          <%= hidden_input f, :video_id, value: @video.id %>
+          <%= hidden_input f, :reportable_id, value: @video.id %>
+          <%= hidden_input f, :reportable_type, value: "Video" %>
           <div class="form-group">
             <%= select f, :reason, ["It's spam or abuse": "spam_or_abuse", "I'm not interested in this post": "not_interested"], class: "icustom-select" %>
           </div>

@@ -1,0 +1,31 @@
+<div class="card text-center mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      <p><%= @article.title %></p>
+      <a href="<%= @article.url %>" target="_blank">
+        <i class="material-icons launch">launch</i>
+      </a>
+    </h5>
+  </div>
+  <div class="embed-responsive embed-responsive-21by9">
+    <embed src="<%= @article.url %>" type="<%= @article.type || "html/text" %>"></embed>
+  </div>
+  <div class="card-footer">
+    <div class="float-sm-left">
+      <%= if @current_user do %>
+        <i class="material-icons arrow-upward" phx-click="like" phx-value="Article:<%= @article.id %>">arrow_upward</i>
+        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@article.id, "Article"}, 0) %></span>
+        <i class="material-icons arrow-downward" phx-click="unlike" phx-value="Article:<%= @article.id %>">arrow_downward</i>
+        <i class="material-icons report" data-toggle="modal" data-target="#reportModal<%= @article.id %>">report</i>
+      <% else %>
+        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@article.id, "Article"}, 0) %></span>
+      <% end %>
+    </div>
+    <div class="float-sm-right">
+      <small class="text-muted">
+        <%= "Published #{posted_on(@article.published_at)} by " %>
+        <%= link @article.user.username, to: Routes.user_path(DietWeb.Endpoint, :show, @article.user) %>
+      </small>
+    </div>
+  </div>
+</div>

@@ -33,6 +33,7 @@ defmodule DietWeb.Router do
     pipe_through [:browser, :authenticate_user]
 
     resources "/videos", VideoController
+    resources "/articles", ArticleController
   end
 
   scope "/admin", DietWeb do

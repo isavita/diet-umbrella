@@ -1,0 +1,22 @@
+<h1>Show Article</h1>
+
+<table class="table table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for field <- Diet.Multimedia.Article.__schema__(:fields) do %>
+    <tr>
+      <td><%= field %></td>
+      <td><%= Map.get(@article, field) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%= link "Edit", to: Routes.article_path(@conn, :edit, @article), role: "button", class: "btn btn-info mr-2" %>
+<%= link "All Articles", to: Routes.article_path(@conn, :index), role: "button", class: "btn btn-info ml-2" %>

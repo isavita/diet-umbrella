@@ -6,6 +6,9 @@
     </div>
 
     <div class="col-md-8 order-md-1">
+      <%= for article <- @articles do %>
+        <%= render "article.html", Map.put(assigns, :article, article) %>
+      <% end %>
       <%= for video <- @videos do %>
         <%= render "video.html", Map.put(assigns, :video, video) %>
       <% end %>

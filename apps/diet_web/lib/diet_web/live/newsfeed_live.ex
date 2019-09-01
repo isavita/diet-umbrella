@@ -16,45 +16,50 @@ defmodule DietWeb.NewsfeedLive do
     {videos, next_cursor} = prepend_videos([], nil)
     newest_videos = Multimedia.list_newest_videos(@newest_videos_count)
 
+    articles = Multimedia.list_newest_articles()
+
     socket =
       assign(
         socket,
         current_user: current_user,
         csrf_token: csrf_token,
         videos: videos,
+        articles: articles,
         next_cursor: next_cursor,
         newest_videos: newest_videos,
-        videos_like_counts: videos_like_counts(videos),
+        like_counts: Map.merge(like_counts(videos, "Video"), like_counts(articles, "Article")),
         report_modal_open: false
       )
 
     {:ok, socket}
   end
 
-  def handle_event("like", video_id, socket) do
-    video_id = String.to_integer(video_id)
-    change = like_change(socket.assigns.current_user, video_id)
+  def handle_event("like", value, socket) do
+    [likeable_type, likeable_id] = String.split(value, ":")
+    likeable_id = String.to_integer(likeable_id)
+    change = like_change(socket.assigns.current_user, likeable_id, likeable_type)
 
     {
       :noreply,
       update(
         socket,
-        :videos_like_counts,
-        fn map -> Map.update(map, video_id, change, &(&1 + change)) end
+        :like_counts,
+        fn map -> Map.update(map, {likeable_id, likeable_type}, change, &(&1 + change)) end
       )
     }
   end
 
-  def handle_event("unlike", video_id, socket) do
-    video_id = String.to_integer(video_id)
-    change = unlike_change(socket.assigns.current_user, video_id)
+  def handle_event("unlike", value, socket) do
+    [likeable_type, likeable_id] = String.split(value, ":")
+    likeable_id = String.to_integer(likeable_id)
+    change = unlike_change(socket.assigns.current_user, likeable_id, likeable_type)
 
     {
       :noreply,
       update(
         socket,
-        :videos_like_counts,
-        fn map -> Map.update(map, video_id, change, &(&1 - change)) end
+        :like_counts,
+        fn map -> Map.update(map, {likeable_id, likeable_type}, change, &(&1 - change)) end
       )
     }
   end
@@ -92,29 +97,30 @@ defmodule DietWeb.NewsfeedLive do
     }
   end
 
-  defp videos_like_counts(videos) do
-    videos
+  defp like_counts(likeables, likeable_type) do
+    likeables
     |> Enum.map(& &1.id)
-    |> Multimedia.videos_like_counts()
+    |> Multimedia.like_counts(likeable_type)
+    |> Enum.map(fn {id, count} -> {{id, likeable_type}, count} end)
     |> Enum.into(%{})
   end
 
-  defp like_change(nil, _video_id), do: 0
+  defp like_change(nil, _likeable_id, _likeable_type), do: 0
 
-  defp like_change(current_user, video_id) do
-    if Multimedia.user_likes_video?(current_user.id, video_id) do
+  defp like_change(current_user, likeable_id, likeable_type) do
+    if Multimedia.user_likes?(current_user.id, likeable_id, likeable_type) do
       0
     else
-      {:ok, _} = Multimedia.like_video(current_user.id, video_id)
+      {:ok, _} = Multimedia.like(current_user.id, likeable_id, likeable_type)
       1
     end
   end
 
-  defp unlike_change(nil, _video_id), do: 0
+  defp unlike_change(nil, _likeable_id, _likeable_type), do: 0
 
-  defp unlike_change(current_user, video_id) do
-    if Multimedia.user_likes_video?(current_user.id, video_id) do
-      {:ok, _} = Multimedia.unlike_video(current_user.id, video_id)
+  defp unlike_change(current_user, likeable_id, likeable_type) do
+    if Multimedia.user_likes?(current_user.id, likeable_id, likeable_type) do
+      {:ok, _} = Multimedia.unlike(current_user.id, likeable_id, likeable_type)
       1
     else
       0
