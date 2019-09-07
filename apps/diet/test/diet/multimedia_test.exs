@@ -132,8 +132,13 @@ defmodule Diet.MultimediaTest do
       user_id = user.id
       video_id = video.id
 
-      assert {:ok, %Report{user_id: user_id, video_id: video_id, spam_or_abuse: true}} =
-               Multimedia.report_video(user_id, video_id, @valid_attrs)
+      assert {:ok,
+              %Report{
+                user_id: user_id,
+                reportable_id: ^video_id,
+                reportable_type: "Video",
+                spam_or_abuse: true
+              }} = Multimedia.report_video(user_id, video_id, @valid_attrs)
     end
   end
 
@@ -186,10 +191,9 @@ defmodule Diet.MultimediaTest do
     }
 
     def article_fixture(attrs \\ %{}) do
-      {:ok, article} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Multimedia.create_article()
+      user = Factory.create_user()
+
+      {:ok, article} = Multimedia.create_article(user, Enum.into(attrs, @valid_attrs))
 
       article
     end

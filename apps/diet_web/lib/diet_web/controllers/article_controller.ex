@@ -7,7 +7,7 @@ defmodule DietWeb.ArticleController do
   plug :load_category when action in [:new, :create, :edit, :update]
 
   def index(conn, _params, current_user) do
-    articles = Multimedia.list_articles()
+    articles = Multimedia.list_user_articles(current_user)
     render(conn, "index.html", articles: articles)
   end
 
@@ -17,7 +17,7 @@ defmodule DietWeb.ArticleController do
   end
 
   def create(conn, %{"article" => article_params}, current_user) do
-    case Multimedia.create_article(article_params) do
+    case Multimedia.create_article(current_user, article_params) do
       {:ok, article} ->
         conn
         |> put_flash(:info, "Article created successfully.")
@@ -35,13 +35,13 @@ defmodule DietWeb.ArticleController do
   end
 
   def edit(conn, %{"id" => id}, current_user) do
-    article = Multimedia.get_article!(id)
+    article = Multimedia.get_user_article!(current_user, id)
     changeset = Multimedia.change_article(article)
     render(conn, "edit.html", article: article, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "article" => article_params}, current_user) do
-    article = Multimedia.get_article!(id)
+    article = Multimedia.get_user_article!(current_user, id)
 
     case Multimedia.update_article(article, article_params) do
       {:ok, article} ->
@@ -55,7 +55,7 @@ defmodule DietWeb.ArticleController do
   end
 
   def delete(conn, %{"id" => id}, current_user) do
-    article = Multimedia.get_article!(id)
+    article = Multimedia.get_user_article!(current_user, id)
     {:ok, _article} = Multimedia.delete_article(article)
 
     conn

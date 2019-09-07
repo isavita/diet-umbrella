@@ -20,6 +20,18 @@ defmodule Diet.Multimedia do
 
   def list_articles, do: Repo.all(Article)
 
+  def list_user_articles(%User{} = user) do
+    Article
+    |> user_query(user)
+    |> Repo.all()
+  end
+
+  def get_user_article!(%User{} = user, id) do
+    Article
+    |> user_query(user)
+    |> Repo.get!(id)
+  end
+
   def list_newest_articles(limit \\ 10) do
     Article
     |> reject_low_quality_query()
@@ -113,7 +125,7 @@ defmodule Diet.Multimedia do
 
   def list_user_videos(%User{} = user) do
     Video
-    |> user_videos_query(user)
+    |> user_query(user)
     |> Repo.all()
   end
 
@@ -178,7 +190,7 @@ defmodule Diet.Multimedia do
 
   def get_user_video!(%User{} = user, id) do
     Video
-    |> user_videos_query(user)
+    |> user_query(user)
     |> Repo.get!(id)
   end
 
@@ -203,7 +215,7 @@ defmodule Diet.Multimedia do
     Video.changeset(video, %{})
   end
 
-  defp user_videos_query(query, %User{id: user_id}) do
+  defp user_query(query, %User{id: user_id}) do
     from(v in query, where: v.user_id == ^user_id)
   end
 
