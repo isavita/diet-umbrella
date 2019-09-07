@@ -5,6 +5,7 @@ defmodule DietWeb.NewsfeedLive do
 
   @videos_per_scroll 5
   @newest_videos_count 10
+  @newest_articles_count 5
 
   def render(assigns) do
     DietWeb.PageView.render("newsfeed.html", assigns)
@@ -15,7 +16,9 @@ defmodule DietWeb.NewsfeedLive do
 
     {videos, next_cursor} = prepend_videos([], nil)
     newest_videos = Multimedia.list_newest_videos(@newest_videos_count)
+    newest_articles = Multimedia.list_newest_articles(@newest_articles_count)
 
+    # TODO: Remove this from here
     articles = Multimedia.list_newest_articles()
 
     socket =
@@ -27,6 +30,7 @@ defmodule DietWeb.NewsfeedLive do
         articles: articles,
         next_cursor: next_cursor,
         newest_videos: newest_videos,
+        newest_articles: newest_articles,
         like_counts: Map.merge(like_counts(videos, "Video"), like_counts(articles, "Article")),
         report_modal_open: false
       )

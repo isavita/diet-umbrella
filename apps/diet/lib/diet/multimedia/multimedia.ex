@@ -10,6 +10,7 @@ defmodule Diet.Multimedia do
   alias Diet.Multimedia.{Annotation, Article, Category, Like, Report, Video, YoutubeChannel}
 
   @popular_videos_count 20
+  @popular_articles_count 10
   @list_query_limit 500
 
   @topic inspect(__MODULE__)

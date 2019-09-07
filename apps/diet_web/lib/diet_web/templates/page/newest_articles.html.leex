@@ -1,0 +1,14 @@
+<div class="card mb-3">
+  <div class="card-header text-center">
+  <h4>Newest Articles</h4>
+  </div>
+  <ul class="list-group list-group-flush">
+    <%= for article <- @newest_articles do %>
+      <li class="list-group-item d-flex justify-content-between align-items-center text-truncate">
+        <a href="<%= article.url %>" target="_blank">
+          <span><%= article.title %></span>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>
