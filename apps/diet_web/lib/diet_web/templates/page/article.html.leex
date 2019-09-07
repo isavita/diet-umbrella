@@ -13,12 +13,12 @@
   <div class="card-footer">
     <div class="float-sm-left">
       <%= if @current_user do %>
-        <i class="material-icons arrow-upward" phx-click="like" phx-value="Article:<%= @article.id %>">arrow_upward</i>
-        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@article.id, "Article"}, 0) %></span>
-        <i class="material-icons arrow-downward" phx-click="unlike" phx-value="Article:<%= @article.id %>">arrow_downward</i>
-        <i class="material-icons report" data-toggle="modal" data-target="#reportModal<%= @article.id %>">report</i>
+        <i class="material-icons arrow-upward" phx-click="like" phx-value-id="<%= @article.id %>" phx-value-type="<%= reportable_type(@article) %>">arrow_upward</i>
+        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@article.id, reportable_type(@article)}, 0) %></span>
+        <i class="material-icons arrow-downward" phx-click="unlike" phx-value-id="<%= @article.id %>" phx-value-type="<%= reportable_type(@article) %>">arrow_downward</i>
+        <i class="material-icons report" data-toggle="modal" data-target="#reportModal<%= reportable_type(@article) %><%= @article.id %>">report</i>
       <% else %>
-        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@article.id, "Article"}, 0) %></span>
+        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@article.id, reportable_type(@article)}, 0) %></span>
       <% end %>
     </div>
     <div class="float-sm-right">
@@ -29,3 +29,4 @@
     </div>
   </div>
 </div>
+<%= render "report_modal.html", Map.put(assigns, :reportable, @article) %>

@@ -25,4 +25,11 @@ defmodule DietWeb.PageView do
       true -> DateTime.to_date(posted_time)
     end
   end
+
+  defp reportable_type(reportable) do
+    reportable.__struct__
+    |> to_string()
+    |> String.split(".")
+    |> List.last()
+  end
 end

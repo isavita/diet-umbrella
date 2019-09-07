@@ -34,32 +34,30 @@ defmodule DietWeb.NewsfeedLive do
     {:ok, socket}
   end
 
-  def handle_event("like", value, socket) do
-    [likeable_type, likeable_id] = String.split(value, ":")
-    likeable_id = String.to_integer(likeable_id)
-    change = like_change(socket.assigns.current_user, likeable_id, likeable_type)
+  def handle_event("like", %{"id" => id, "type" => type}, socket) do
+    id = String.to_integer(id)
+    change = like_change(socket.assigns.current_user, id, type)
 
     {
       :noreply,
       update(
         socket,
         :like_counts,
-        fn map -> Map.update(map, {likeable_id, likeable_type}, change, &(&1 + change)) end
+        fn map -> Map.update(map, {id, type}, change, &(&1 + change)) end
       )
     }
   end
 
-  def handle_event("unlike", value, socket) do
-    [likeable_type, likeable_id] = String.split(value, ":")
-    likeable_id = String.to_integer(likeable_id)
-    change = unlike_change(socket.assigns.current_user, likeable_id, likeable_type)
+  def handle_event("unlike", %{"id" => id, "type" => type}, socket) do
+    id = String.to_integer(id)
+    change = unlike_change(socket.assigns.current_user, id, type)
 
     {
       :noreply,
       update(
         socket,
         :like_counts,
-        fn map -> Map.update(map, {likeable_id, likeable_type}, change, &(&1 - change)) end
+        fn map -> Map.update(map, {id, type}, change, &(&1 - change)) end
       )
     }
   end

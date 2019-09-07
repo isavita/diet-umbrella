@@ -17,7 +17,9 @@ defmodule Diet.Multimedia.Article do
       foreign_key: :likeable_id,
       where: [likable_type: "Article"]
 
-    has_many :reports, Diet.Multimedia.Report, foreign_key: :reportable_id, where: [reportable_type: "Article"]
+    has_many :reports, Diet.Multimedia.Report,
+      foreign_key: :reportable_id,
+      where: [reportable_type: "Article"]
 
     timestamps()
   end

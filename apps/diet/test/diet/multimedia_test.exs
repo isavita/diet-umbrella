@@ -43,7 +43,7 @@ defmodule Diet.MultimediaTest do
       video_ids = Enum.map(Multimedia.list_popular_videos(), & &1.id)
       assert Enum.member?(video_ids, video.id)
 
-      Multimedia.mark_as_low_quality_video(video)
+      Multimedia.update_video(video, %{low_quality: true})
 
       assert Multimedia.list_popular_videos() == []
     end

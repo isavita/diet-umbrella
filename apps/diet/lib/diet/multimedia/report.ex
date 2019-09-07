@@ -9,7 +9,6 @@ defmodule Diet.Multimedia.Report do
     field :not_interested, :boolean
 
     belongs_to :user, Diet.Accounts.User
-    belongs_to :video, Diet.Multimedia.Video
 
     timestamps()
   end
@@ -19,7 +18,7 @@ defmodule Diet.Multimedia.Report do
     report
     |> cast(attrs, [:reportable_id, :reportable_type, :spam_or_abuse, :not_interested])
     |> unique_constraint(:user,
-      name: :reports_user_id_video_id_index,
+      name: :reports_user_id_reportable_id_reportable_type_index,
       message: "Report already submitted"
     )
   end
