@@ -10,12 +10,12 @@
   <div class="card-footer">
     <div class="float-sm-left">
       <%= if @current_user do %>
-        <i class="material-icons arrow-upward" phx-click="like" phx-value="Video:<%= @video.id %>">arrow_upward</i>
-        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@video.id, "Video"}, 0) %></span>
-        <i class="material-icons arrow-downward" phx-click="unlike" phx-value="Video:<%= @video.id %>">arrow_downward</i>
-        <i class="material-icons report" data-toggle="modal" data-target="#reportModal<%= @video.id %>">report</i>
+        <i class="material-icons arrow-upward" phx-click="like" phx-value-id="<%= @video.id %>" phx-value-type="<%= reportable_type(@video) %>">arrow_upward</i>
+        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@video.id, reportable_type(@video)}, 0) %></span>
+        <i class="material-icons arrow-downward" phx-click="unlike" phx-value-id="<%= @video.id %>" phx-value-type="<%= reportable_type(@video) %>">arrow_downward</i>
+        <i class="material-icons report" data-toggle="modal" data-target="#reportModal<%= reportable_type(@video) %><%= @video.id %>">report</i>
       <% else %>
-        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@video.id, "Video"}, 0) %></span>
+        <span class="badge badge-pill badge-secondary"><%= Map.get(@like_counts, {@video.id, reportable_type(@video)}, 0) %></span>
       <% end %>
     </div>
     <div class="float-sm-right">
@@ -26,4 +26,4 @@
     </div>
   </div>
 </div>
-<%= render "report_modal.html", Map.put(assigns, :video, @video) %>
+<%= render "report_modal.html", Map.put(assigns, :reportable, @video) %>

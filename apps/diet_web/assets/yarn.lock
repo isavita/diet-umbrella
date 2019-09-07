@@ -3988,8 +3988,10 @@ performance-now@^2.1.0:
 "phoenix_html@file:../../../deps/phoenix_html":
   version "2.13.3"
 
-"phoenix_live_view@file:../../../deps/phoenix_live_view":
-  version "0.1.0-dev"
+phoenix_live_view@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.1.1.tgz#68ec260a0819fca9ca423f2567cc15274040b344"
+  integrity sha512-ol7oBq/kx+443SYEdUN1vzUZOtqTFIvZZunbo1yhEhoGLzL7osep+BQQOX/8dzsMxaJ49ZZiAVLRKbSF3atnZw==
 
 pify@^2.0.0:
   version "2.3.0"

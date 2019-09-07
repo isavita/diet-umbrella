@@ -145,23 +145,32 @@ defmodule Diet.Multimedia do
     |> Repo.insert()
   end
 
-  def mark_reported_videos(reports_count) do
-    videos = reported_videos_query(reports_count) |> Repo.all()
+  def mark_as_reported(reports_count) do
+    mark_as_reported_videos(reports_count)
+    mark_as_reported_articles(reports_count)
+  end
 
-    from(v in Video, where: v.id in ^videos)
+  defp mark_as_reported_videos(reports_count) do
+    video_ids = reported_query(reports_count, "Video") |> Repo.all()
+
+    from(v in Video, where: v.id in ^video_ids)
     |> Repo.update_all(set: [low_quality: true])
   end
 
-  def mark_as_low_quality_video(video) do
-    update_video(video, %{low_quality: true})
+  defp mark_as_reported_articles(reports_count) do
+    article_ids = reported_query(reports_count, "Article") |> Repo.all()
+
+    from(v in Article, where: v.id in ^article_ids)
+    |> Repo.update_all(set: [low_quality: true])
   end
 
-  defp reported_videos_query(reports_count) do
-    from(v in Video,
+  defp reported_query(reports_count, type) do
+    from(v in "#{String.downcase(type)}s",
       join: r in assoc(v, :reports),
-      group_by: r.video_id,
+      group_by: r.reportable_id,
       having: count(r.id) >= ^reports_count,
-      select: r.video_id
+      where: r.reportable_type == ^type,
+      select: r.reportable_id
     )
   end
 
@@ -220,12 +229,6 @@ defmodule Diet.Multimedia do
   def annotate_video(%User{id: user_id}, video_id, attrs) do
     %Annotation{user_id: user_id, video_id: video_id}
     |> Annotation.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def like_video(user_id, video_id) do
-    %Like{user_id: user_id, video_id: video_id}
-    |> Like.changeset(%{})
     |> Repo.insert()
   end
 

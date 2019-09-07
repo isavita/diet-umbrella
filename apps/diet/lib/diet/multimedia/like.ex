@@ -5,8 +5,8 @@ defmodule Diet.Multimedia.Like do
   schema "likes" do
     field :likeable_id, :integer
     field :likeable_type, :string
+
     belongs_to :user, Diet.Accounts.User
-    belongs_to :video, Diet.Multimedia.Video
 
     timestamps()
   end

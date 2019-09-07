@@ -1,4 +1,4 @@
-<div class="modal fade" id="reportModal<%= @video.id %>" tabindex="-1" role="dialog" aria-labelledby="reportModalTitle" aria-hidden="true">
+<div class="modal fade" id="reportModal<%= reportable_type(@reportable) %><%= @reportable.id %>" tabindex="-1" role="dialog" aria-labelledby="reportModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -9,8 +9,8 @@
       </div>
       <div class="modal-body">
         <%= form_for :report, Routes.report_path(DietWeb.Endpoint, :create), [csrf_token: @csrf_token], fn f -> %>
-          <%= hidden_input f, :reportable_id, value: @video.id %>
-          <%= hidden_input f, :reportable_type, value: "Video" %>
+          <%= hidden_input f, :reportable_id, value: @reportable.id %>
+          <%= hidden_input f, :reportable_type, value: reportable_type(@reportable) %>
           <div class="form-group">
             <%= select f, :reason, ["It's spam or abuse": "spam_or_abuse", "I'm not interested in this post": "not_interested"], class: "icustom-select" %>
           </div>

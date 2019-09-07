@@ -19,7 +19,7 @@ defmodule DietWeb.QualityControl.Server do
 
   @impl true
   def handle_info(:quality_check, state) do
-    Multimedia.mark_reported_videos(lower_quality_report_count())
+    Multimedia.mark_as_reported(lower_quality_report_count())
 
     schedule_quality_check(state[:frequency])
 

@@ -19,7 +19,10 @@ defmodule Diet.Repo.Migrations.UpdateVideosLikesAndReports do
   defp update_all_videos_reports do
     Enum.each(Diet.Repo.all(Diet.Multimedia.Like), fn report ->
       report
-      |> Diet.Multimedia.Like.changeset(%{reportable_id: report.video_id, reportable_type: "Video"})
+      |> Diet.Multimedia.Like.changeset(%{
+        reportable_id: report.video_id,
+        reportable_type: "Video"
+      })
       |> Diet.Repo.update!()
     end)
   end
