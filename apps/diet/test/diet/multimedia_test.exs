@@ -3,22 +3,6 @@ defmodule Diet.MultimediaTest do
 
   alias Diet.Multimedia
 
-  describe "categories" do
-    test "list_ordered_categories/0" do
-      for attrs <- [
-            %{name: "Entertainment", position: 1},
-            %{name: "Music", position: 2},
-            %{name: "Education", position: 1}
-          ] do
-        Multimedia.create_category!(attrs)
-      end
-
-      ordered_names = Multimedia.list_ordered_categories() |> Enum.map(& &1.name)
-
-      assert ordered_names == ~w(Music Education Entertainment)
-    end
-  end
-
   describe "videos" do
     alias Diet.Multimedia.Video
 

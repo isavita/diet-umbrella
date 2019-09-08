@@ -12,7 +12,6 @@ defmodule Diet.Multimedia.Video do
     field :published_at, :utc_datetime
 
     belongs_to :user, Diet.Accounts.User
-    belongs_to :category, Diet.Multimedia.Category
     has_many :annotations, Diet.Multimedia.Annotation
 
     has_many :likes, Diet.Multimedia.Like,
@@ -23,7 +22,7 @@ defmodule Diet.Multimedia.Video do
       foreign_key: :reportable_id,
       where: [reportable_type: "Video"]
 
-    many_to_many :tags, Diet.Multimedia.Tag, join_through: "videos_tags", on_replace: :delete
+    many_to_many :tags, Diet.Multimedia.Tag, join_through: "videos_tags", on_replace: :delete, on_delete: :delete_all
 
     timestamps()
   end
@@ -31,12 +30,11 @@ defmodule Diet.Multimedia.Video do
   @url_error_message "Invalid format. Please make sure that the url is from youtube."
   def changeset(video, attrs) do
     video
-    |> cast(attrs, [:url, :title, :description, :category_id, :low_quality, :published_at])
+    |> cast(attrs, [:url, :title, :description, :low_quality, :published_at])
     |> validate_required([:url, :title])
     |> validate_format(:url, ~r/youtu/i, message: @url_error_message)
     |> validate_length(:title, min: 3)
     |> validate_length(:title, max: 160)
-    |> assoc_constraint(:category)
     |> slugify_title()
   end
 

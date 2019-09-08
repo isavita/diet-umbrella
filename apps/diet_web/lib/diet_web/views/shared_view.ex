@@ -1,8 +1,4 @@
 defmodule DietWeb.SharedView do
-  def category_select_options(categories) do
-    for category <- categories, do: {category.name, category.id}
-  end
-
   def tags_select_options(tags) do
     for tag <- tags, do: {tag.name, tag.id}
   end

@@ -4,7 +4,6 @@ defmodule DietWeb.ArticleController do
   alias Diet.Multimedia
   alias Diet.Multimedia.Article
 
-  plug :load_category when action in [:new, :create, :edit, :update]
   plug :load_tags when action in [:new, :create, :edit, :update]
 
   def index(conn, _params, current_user) do
@@ -25,9 +24,8 @@ defmodule DietWeb.ArticleController do
         |> redirect(to: Routes.article_path(conn, :show, article))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        categories = Multimedia.list_categories()
         tags = Multimedia.list_ordered_tags()
-        render(conn, "new.html", changeset: changeset, categories: categories, tags: tags)
+        render(conn, "new.html", changeset: changeset, tags: tags)
     end
   end
 
@@ -68,10 +66,6 @@ defmodule DietWeb.ArticleController do
   def action(conn, _) do
     args = [conn, conn.params, conn.assigns.current_user]
     apply(__MODULE__, action_name(conn), args)
-  end
-
-  defp load_category(conn, _) do
-    assign(conn, :categories, Multimedia.list_ordered_categories())
   end
 
   defp load_tags(conn, _) do

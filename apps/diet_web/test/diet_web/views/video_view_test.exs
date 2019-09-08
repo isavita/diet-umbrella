@@ -4,7 +4,7 @@ defmodule DietWeb.VideoViewTest do
   import Phoenix.View
 
   alias Diet.Multimedia
-  alias Diet.Multimedia.{Category, Video}
+  alias Diet.Multimedia.{Tag, Video}
   alias DietWeb.VideoView
 
   test "renders index.html", %{conn: conn} do
@@ -29,9 +29,9 @@ defmodule DietWeb.VideoViewTest do
   test "renders new.html", %{conn: conn} do
     changeset = Multimedia.change_video(%Video{})
 
-    categories = [
-      %Category{id: "1", name: "Comedy"},
-      %Category{id: "2", name: "Science"}
+    tags = [
+      %Tag{id: "1", name: "Comedy"},
+      %Tag{id: "2", name: "Science"}
     ]
 
     content =
@@ -40,7 +40,7 @@ defmodule DietWeb.VideoViewTest do
         "new.html",
         conn: conn,
         changeset: changeset,
-        categories: categories
+        tags: tags
       )
 
     assert String.contains?(content, "New Video")
@@ -48,9 +48,9 @@ defmodule DietWeb.VideoViewTest do
     assert String.contains?(content, "Description")
     assert String.contains?(content, "Url")
 
-    for category <- categories do
-      assert String.contains?(content, category.id)
-      assert String.contains?(content, category.name)
+    for tag <- tags do
+      assert String.contains?(content, tag.id)
+      assert String.contains?(content, tag.name)
     end
   end
 end

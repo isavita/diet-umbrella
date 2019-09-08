@@ -4,7 +4,6 @@ defmodule DietWeb.VideoController do
   alias Diet.Multimedia
   alias Diet.Multimedia.Video
 
-  plug :load_category when action in [:new, :create, :edit, :update]
   plug :load_tags when action in [:new, :create, :edit, :update]
 
   def index(conn, _params, current_user) do
@@ -26,9 +25,8 @@ defmodule DietWeb.VideoController do
         |> redirect(to: Routes.video_path(conn, :show, video))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        categories = Multimedia.list_categories()
         tags = Multimedia.list_ordered_tags()
-        render(conn, "new.html", changeset: changeset, categories: categories, tags: tags)
+        render(conn, "new.html", changeset: changeset, tags: tags)
     end
   end
 
@@ -64,10 +62,6 @@ defmodule DietWeb.VideoController do
     conn
     |> put_flash(:info, "Video deleted successfully.")
     |> redirect(to: Routes.video_path(conn, :index))
-  end
-
-  defp load_category(conn, _) do
-    assign(conn, :categories, Multimedia.list_ordered_categories())
   end
 
   defp load_tags(conn, _) do

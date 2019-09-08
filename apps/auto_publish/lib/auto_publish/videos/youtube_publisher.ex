@@ -3,7 +3,7 @@ defmodule AutoPublish.Videos.YoutubePublisher do
   alias Diet.{Accounts, Multimedia, Repo}
 
   @admin_username "weighthater"
-  @default_category "Fitness"
+  @default_tag "Fitness"
 
   def publish_new_videos(opts \\ []) do
     opts = Keyword.put_new(opts, :video_count, 2)
@@ -18,7 +18,7 @@ defmodule AutoPublish.Videos.YoutubePublisher do
 
   defp publish_channel_unpublished_videos(channel, opts) do
     user = Accounts.user_by_username(@admin_username)
-    category = Multimedia.category_by_name(@default_category)
+    tag = Multimedia.tag_by_name(@default_tag)
     videos = channel.videos
 
     case Enum.reject(videos, & &1.published) do
@@ -31,16 +31,16 @@ defmodule AutoPublish.Videos.YoutubePublisher do
         })
 
         channel = Multimedia.get_youtube_channel(channel.id)
-        publish_videos(channel, channel.videos, channel.videos, user, category, opts)
+        publish_videos(channel, channel.videos, channel.videos, user, tag, opts)
 
       unpublished_videos ->
-        publish_videos(channel, videos, unpublished_videos, user, category, opts)
+        publish_videos(channel, videos, unpublished_videos, user, tag, opts)
     end
   end
 
-  defp publish_videos(channel, videos, unpublished_videos, user, category, opts) do
+  defp publish_videos(channel, videos, unpublished_videos, user, tag, opts) do
     videos_to_publish = Enum.take(unpublished_videos, opts[:video_count])
-    create_videos(videos_to_publish, user, category)
+    create_videos(videos_to_publish, user, tag)
     updated_videos = mark_as_published(videos, videos_to_publish)
 
     Multimedia.update_youtube_channel(
@@ -59,18 +59,19 @@ defmodule AutoPublish.Videos.YoutubePublisher do
     end)
   end
 
-  defp create_videos(videos, user, category) do
-    Enum.each(videos, &create_video(&1, user, category))
+  defp create_videos(videos, user, tag) do
+    Enum.each(videos, &create_video(&1, user, tag))
   end
 
-  defp create_video(video, user, category) do
+  defp create_video(video, user, tag) do
     video = transform_video(video)
+    IO.inspect(tag, label: "tag")
 
     Multimedia.create_video(user, %{
       url: "https://www.youtube.com/watch?v=#{video.uid}",
       title: video.title,
       description: video.description,
-      category_id: category.id,
+      tags: [tag.id],
       published_at: DateTime.utc_now()
     })
   end

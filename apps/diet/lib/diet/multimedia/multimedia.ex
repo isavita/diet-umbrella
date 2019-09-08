@@ -27,6 +27,8 @@ defmodule Diet.Multimedia do
     |> Repo.all()
   end
 
+  def tag_by_name(name), do: Repo.get_by(Tag, name: name)
+
   def get_user_article!(%User{} = user, id) do
     Article
     |> user_query(user)
@@ -48,7 +50,7 @@ defmodule Diet.Multimedia do
     %Article{}
     |> Article.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
-    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs["tags"]), required: true)
+    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs), required: true)
     |> Repo.insert()
   end
 
@@ -56,11 +58,15 @@ defmodule Diet.Multimedia do
     article
     |> Repo.preload(:tags)
     |> Article.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs["tags"]), required: true)
+    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs), required: true)
     |> Repo.update()
   end
 
-  def list_tags(tag_ids) do
+  def list_tags(%{tags: tag_ids}), do: do_list_tags(tag_ids)
+
+  def list_tags(%{"tags" => tag_ids}), do: do_list_tags(tag_ids)
+
+  def do_list_tags(tag_ids) do
     Repo.all(from(t in Tag, where: t.id in ^tag_ids))
   end
 
@@ -180,16 +186,16 @@ defmodule Diet.Multimedia do
   defp mark_as_reported_articles(reports_count) do
     article_ids = reported_query(reports_count, "Article") |> Repo.all()
 
-    from(v in Article, where: v.id in ^article_ids)
+    from(a in Article, where: a.id in ^article_ids)
     |> Repo.update_all(set: [low_quality: true])
   end
 
   defp reported_query(reports_count, type) do
     from(v in "#{String.downcase(type)}s",
-      join: r in assoc(v, :reports),
+      join: r in Report,
+      on: r.reportable_id == v.id and r.reportable_type == ^type,
       group_by: r.reportable_id,
       having: count(r.id) >= ^reports_count,
-      where: r.reportable_type == ^type,
       select: r.reportable_id
     )
   end
@@ -206,7 +212,7 @@ defmodule Diet.Multimedia do
     %Video{}
     |> Video.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
-    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs["tags"]), required: true)
+    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs), required: true)
     |> Repo.insert()
     |> notify_subscribers({:video, :created})
   end
@@ -215,7 +221,7 @@ defmodule Diet.Multimedia do
     video
     |> Repo.preload(:tags)
     |> Video.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs["tags"]), required: true)
+    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs), required: true)
     |> Repo.update()
     |> notify_subscribers({:video, :updated})
   end
@@ -230,29 +236,10 @@ defmodule Diet.Multimedia do
     from(v in query, where: v.user_id == ^user_id)
   end
 
-  def list_categories, do: Repo.all(Category)
-
-  def list_ordered_categories do
-    Category
-    |> Category.position()
-    |> Category.alphabetical()
-    |> Repo.all()
-  end
-
   def list_ordered_tags do
     Tag
     |> Tag.alphabetical()
     |> Repo.all()
-  end
-
-  def get_category!(id), do: Repo.get!(Category, id)
-
-  def category_by_name(name), do: Repo.get_by(Category, name: name)
-
-  def create_category!(attrs) do
-    %Category{}
-    |> Category.changeset(attrs)
-    |> Repo.insert!(on_conflict: {:replace, [:name, :position]}, conflict_target: :name)
   end
 
   def annotate_video(%User{id: user_id}, video_id, attrs) do

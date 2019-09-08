@@ -12,7 +12,7 @@
 #
 alias Diet.Accounts.User
 alias Diet.Multimedia
-alias Diet.Multimedia.{Article, Category, Like, Tag, Video, YoutubeChannel}
+alias Diet.Multimedia.{Article, Like, Tag, Video, YoutubeChannel}
 alias Diet.Repo
 
 import Ecto.Query
@@ -49,19 +49,6 @@ user_changesets = [
 ]
 
 Enum.each(user_changesets, &Repo.insert(&1, on_conflict: :nothing))
-
-for {name, position} <- [
-      {"Computer Science", 1},
-      {"Science", 1},
-      {"Fitness", 1},
-      {"ASMR", 1},
-      {"Physics", 1},
-      {"Other", 0}
-    ] do
-  Multimedia.create_category!(%{name: name, position: position})
-end
-
-computer_science = Repo.get_by(Category, name: "Computer Science")
 jose = Repo.get_by(User, username: "jose")
 chris = Repo.get_by(User, username: "chris")
 
@@ -70,7 +57,6 @@ videos = [
     url: "https://www.youtube.com/watch?v=0Bn2NQP2i7A",
     title: "IOHK Summit 2019 day 2",
     description: "IOHK Summit 2019 day 2 technical talks",
-    category_id: computer_science.id,
     published_at: DateTime.truncate(DateTime.utc_now(), :second),
     user: jose
   },
@@ -79,7 +65,6 @@ videos = [
     title: "Turing Award Lecture",
     description:
       ~s/We are pleased to announce that Geoffrey Hinton and Yann LeCun will deliver the Turing Lecture at FCRC.  Hinton's talk, entitled, "The Deep Learning Revolution" and LeCun's talk, entitled, "The Deep Learning Revolution: The Sequel," will be presented June 23rd from 5:15-6:30pm in Symphony Hall./,
-    category_id: computer_science.id,
     published_at: DateTime.truncate(DateTime.utc_now(), :second),
     user: jose
   },
@@ -88,7 +73,6 @@ videos = [
     title: "Becoming a Kardashev Type I Civilization",
     description:
       ~s/The Kardashev Scale has become a standardized way of classifying (hypothetical) advanced civilizations. The lowest rank, Type 1, is still way ahead of us - but by how much? When will we achieve Type 1 status and exactly how could we plausibly do so? In this video, we go through some estimates of when humanity might become Type 1, and in particular what kind of energy sources we could harness to achieve this feat./,
-    category_id: computer_science.id,
     published_at: DateTime.truncate(DateTime.utc_now(), :second),
     user: chris
   },
@@ -97,7 +81,6 @@ videos = [
     title: "Industrializing the Moon",
     description:
       ~s/We return to the Moon to explore ways to go beyond simple Lunar Bases to a full-fledged productive colony that can help us travel to other worlds and expand our own./,
-    category_id: computer_science.id,
     user: chris
   }
 ]
@@ -117,7 +100,6 @@ articles = [
   %Article{
     url: "https://www.technologyreview.com/lists/innovators-under-35/2016/pioneer/oriol-vinyals/",
     title: "Oriol Vinyals, 33",
-    category_id: computer_science.id,
     published_at: DateTime.truncate(DateTime.utc_now(), :second),
     user: jose
   },
@@ -127,7 +109,6 @@ articles = [
     description:
       ~s{This is a technical paper, which is a continuation of math.DG/0211159. Here we construct Ricci flow with surgeries and verify most of the assertions, made in section 13 of that e-print; the exceptions are (1) the statement that manifolds that can collapse with local lower bound on sectional curvature are graph manifolds - this is deferred to a separate paper, since the proof has nothing to do with the Ricci flow, and (2) the claim on the lower bound for the volume of maximal horns and the smoothness of solutions from some time on, which turned out to be unjustified and, on the other hand, irrelevant for the other conclusions.},
     type: "application/pdf",
-    category_id: computer_science.id,
     published_at: DateTime.truncate(DateTime.utc_now(), :second),
     user: chris
   }
@@ -156,6 +137,29 @@ Enum.each(youtube_channels, fn {name, uid} ->
   )
 end)
 
+# Create basic tags
 for tag <- ["Diet", "Reverse Diet", "Mini Cut", "Bulking Diet", "Fitness", "Other"] do
   Tag.changeset(%Tag{}, %{name: tag}) |> Repo.insert!(on_conflict: :nothing)
 end
+
+fitness_tag = Repo.get_by!(Tag, name: "Fitness")
+other_tag = Repo.get_by!(Tag, name: "Other")
+
+videos = Repo.all(Video) |> Repo.preload(:tags)
+articles = Repo.all(Article) |> Repo.preload(:tags)
+
+tag_post = fn post, tags ->
+  post
+  |> Ecto.Changeset.change(%{})
+  |> Ecto.Changeset.put_assoc(:tags, tags, required: true)
+  |> Repo.update()
+end
+
+Enum.each(videos ++ articles, fn elem ->
+  cond do
+    rem(elem.id, 2) == 0 ->
+      tag_post.(elem, [fitness_tag])
+    true ->
+      tag_post.(elem, [other_tag])
+  end
+end)

@@ -11,7 +11,6 @@ defmodule Diet.Multimedia.Article do
     field :url, :string
 
     belongs_to :user, Diet.Accounts.User
-    belongs_to :category, Diet.Multimedia.Category
 
     has_many :likes, Diet.Multimedia.Like,
       foreign_key: :likeable_id,
@@ -21,18 +20,16 @@ defmodule Diet.Multimedia.Article do
       foreign_key: :reportable_id,
       where: [reportable_type: "Article"]
 
-    many_to_many :tags, Diet.Multimedia.Tag, join_through: "articles_tags", on_replace: :delete
-
+    many_to_many :tags, Diet.Multimedia.Tag, join_through: "articles_tags", on_replace: :delete, on_delete: :delete_all
     timestamps()
   end
 
   @doc false
   def changeset(article, attrs) do
     article
-    |> cast(attrs, [:category_id, :description, :title, :url, :type, :low_quality, :published_at])
+    |> cast(attrs, [:description, :title, :url, :type, :low_quality, :published_at])
     |> validate_required([:title, :url, :type])
     |> validate_inclusion(:type, supported_types())
-    |> assoc_constraint(:category)
   end
 
   @doc false
