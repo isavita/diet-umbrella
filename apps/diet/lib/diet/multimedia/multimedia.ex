@@ -7,7 +7,7 @@ defmodule Diet.Multimedia do
 
   alias Diet.Accounts.User
   alias Diet.Repo
-  alias Diet.Multimedia.{Annotation, Article, Category, Like, Report, Video, YoutubeChannel}
+  alias Diet.Multimedia.{Annotation, Article, Category, Like, Report, Tag, Video, YoutubeChannel}
 
   @popular_videos_count 20
   @popular_articles_count 10
@@ -48,13 +48,20 @@ defmodule Diet.Multimedia do
     %Article{}
     |> Article.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
+    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs["tags"]), required: true)
     |> Repo.insert()
   end
 
   def update_article(%Article{} = article, attrs) do
     article
+    |> Repo.preload(:tags)
     |> Article.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs["tags"]), required: true)
     |> Repo.update()
+  end
+
+  def list_tags(tag_ids) do
+    Repo.all(from(t in Tag, where: t.id in ^tag_ids))
   end
 
   def delete_article(%Article{} = article), do: Repo.delete(article)
@@ -199,13 +206,16 @@ defmodule Diet.Multimedia do
     %Video{}
     |> Video.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
+    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs["tags"]), required: true)
     |> Repo.insert()
     |> notify_subscribers({:video, :created})
   end
 
   def update_video(%Video{} = video, attrs) do
     video
+    |> Repo.preload(:tags)
     |> Video.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:tags, list_tags(attrs["tags"]), required: true)
     |> Repo.update()
     |> notify_subscribers({:video, :updated})
   end
@@ -226,6 +236,12 @@ defmodule Diet.Multimedia do
     Category
     |> Category.position()
     |> Category.alphabetical()
+    |> Repo.all()
+  end
+
+  def list_ordered_tags do
+    Tag
+    |> Tag.alphabetical()
     |> Repo.all()
   end
 

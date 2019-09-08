@@ -23,6 +23,8 @@ defmodule Diet.Multimedia.Video do
       foreign_key: :reportable_id,
       where: [reportable_type: "Video"]
 
+    many_to_many :tags, Diet.Multimedia.Tag, join_through: "videos_tags", on_replace: :delete
+
     timestamps()
   end
 

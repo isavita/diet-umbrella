@@ -12,7 +12,7 @@
 #
 alias Diet.Accounts.User
 alias Diet.Multimedia
-alias Diet.Multimedia.{Article, Category, Like, Video, YoutubeChannel}
+alias Diet.Multimedia.{Article, Category, Like, Tag, Video, YoutubeChannel}
 alias Diet.Repo
 
 import Ecto.Query
@@ -104,7 +104,13 @@ videos = [
 
 Enum.each(videos, &Repo.insert!(&1, on_conflict: :nothing))
 videos = Repo.all(from(v in Video, where: v.user_id == ^jose.id))
-Enum.each(videos, &Repo.insert!(%Like{user_id: jose.id, video_id: &1.id}, on_conflict: :nothing))
+
+Enum.each(
+  videos,
+  &Repo.insert!(%Like{user_id: jose.id, likeable_id: &1.id, likeable_type: "Video"},
+    on_conflict: :nothing
+  )
+)
 
 # Add articles
 articles = [
@@ -149,3 +155,7 @@ Enum.each(youtube_channels, fn {name, uid} ->
     on_conflict: :nothing
   )
 end)
+
+for tag <- ["Diet", "Reverse Diet", "Mini Cut", "Bulking Diet", "Fitness", "Other"] do
+  Tag.changeset(%Tag{}, %{name: tag}) |> Repo.insert!(on_conflict: :nothing)
+end

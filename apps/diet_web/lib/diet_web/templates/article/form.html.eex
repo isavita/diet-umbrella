@@ -35,6 +35,12 @@
     <%= error_tag f, :category_id %>
   </div>
 
+  <div class="form-group">
+    <%= label f, :tags %>
+    <%= multiple_select f, :tags, tags_select_options(@tags), selected: selected_tags(@changeset), class: "form-control" %>
+    <%= error_tag f, :tags %>
+  </div>
+
   <div class="form-check">
     <%= checkbox f, :published_at, checked_value: default_published_at(f), unchecked_value: nil, class: "form-check-input" %>
     <%= label f, :published_at, "Public", class: "form-check-label" %>

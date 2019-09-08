@@ -21,6 +21,8 @@ defmodule Diet.Multimedia.Article do
       foreign_key: :reportable_id,
       where: [reportable_type: "Article"]
 
+    many_to_many :tags, Diet.Multimedia.Tag, join_through: "articles_tags", on_replace: :delete
+
     timestamps()
   end
 
