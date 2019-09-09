@@ -12,6 +12,7 @@ RUN apk update && \
     yarn \
     git \
     build-base && \
+    openssh && \
   mix local.rebar --force && \
   mix local.hex --force
 
