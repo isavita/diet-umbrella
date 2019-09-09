@@ -27,6 +27,8 @@ defmodule Diet.Multimedia do
     |> Repo.all()
   end
 
+  def list_tags, do: Repo.all(Tag)
+
   def tag_by_name(name), do: Repo.get_by(Tag, name: name)
 
   def get_user_article!(%User{} = user, id) do
@@ -110,6 +112,7 @@ defmodule Diet.Multimedia do
 
     Video
     |> reject_low_quality_query()
+    |> tags_query(opts[:tag_ids])
     |> published_query()
     |> order_by(desc: :published_at)
     |> preload(:user)
@@ -118,6 +121,16 @@ defmodule Diet.Multimedia do
 
   defp reject_low_quality_query(queryable) do
     from(v in queryable, where: v.low_quality != true)
+  end
+
+  defp tags_query(queryable, nil), do: queryable
+
+  defp tags_query(queryable, tag_ids) do
+    from(q in queryable,
+      join: vt in "videos_tags",
+      on: vt.video_id == q.id,
+      where: vt.tag_id in ^tag_ids
+    )
   end
 
   defp popular_query(queryable) do

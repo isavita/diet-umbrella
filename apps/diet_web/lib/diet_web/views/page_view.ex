@@ -1,5 +1,6 @@
 defmodule DietWeb.PageView do
   use DietWeb, :view
+  import DietWeb.SharedView
 
   @minute 60
   @hour 3600

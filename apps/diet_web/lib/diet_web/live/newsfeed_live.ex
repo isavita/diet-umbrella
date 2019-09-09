@@ -17,6 +17,7 @@ defmodule DietWeb.NewsfeedLive do
     {videos, next_cursor} = prepend_videos([], nil)
     newest_videos = Multimedia.list_newest_videos(@newest_videos_count)
     newest_articles = Multimedia.list_newest_articles(@newest_articles_count)
+    tags = Multimedia.list_tags()
 
     # TODO: Remove this from here
     articles = Multimedia.list_newest_articles()
@@ -26,6 +27,8 @@ defmodule DietWeb.NewsfeedLive do
         socket,
         current_user: current_user,
         csrf_token: csrf_token,
+        tags: tags,
+        selected_tag_ids: [],
         videos: videos,
         articles: articles,
         next_cursor: next_cursor,
@@ -64,6 +67,20 @@ defmodule DietWeb.NewsfeedLive do
         fn map -> Map.update(map, {id, type}, change, &(&1 - change)) end
       )
     }
+  end
+
+  def handle_event("select", %{"filters" => %{"tags" => tag_ids}}, socket) do
+    tag_ids = Enum.map(tag_ids, &String.to_integer/1)
+    {videos, next_cursor} = prepend_videos([], nil, tag_ids)
+
+    socket =
+      assign(socket,
+        selected_tag_ids: tag_ids,
+        videos: videos,
+        next_cursor: next_cursor
+      )
+
+    {:noreply, socket}
   end
 
   def handle_event("open-report-modal", _value, socket) do
@@ -129,17 +146,18 @@ defmodule DietWeb.NewsfeedLive do
     end
   end
 
-  defp prepend_videos(videos, next_cursor) do
-    %{entries: old_videos, metadata: metadata} = next_videos(next_cursor)
+  defp prepend_videos(videos, next_cursor, tag_ids \\ nil) do
+    %{entries: old_videos, metadata: metadata} = next_videos(next_cursor, tag_ids)
 
     {Enum.uniq(videos ++ old_videos), metadata.after}
   end
 
-  defp next_videos(next_cursor) do
+  defp next_videos(next_cursor, tag_ids) do
     Multimedia.list_videos_paginated(
       after: next_cursor,
       cursor_fields: [{:published_at, :desc}],
-      limit: @videos_per_scroll
+      limit: @videos_per_scroll,
+      tag_ids: tag_ids
     )
   end
 end

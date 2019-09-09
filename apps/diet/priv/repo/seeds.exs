@@ -159,6 +159,7 @@ Enum.each(videos ++ articles, fn elem ->
   cond do
     rem(elem.id, 2) == 0 ->
       tag_post.(elem, [fitness_tag])
+
     true ->
       tag_post.(elem, [other_tag])
   end

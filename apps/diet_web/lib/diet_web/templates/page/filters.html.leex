@@ -1,0 +1,8 @@
+<div class="card mb-3">
+  <div class="card-header text-center">
+  <h4>Tags</h4>
+  </div>
+  <%= f = form_for  %Ecto.Changeset{}, "#", [as: :filters, phx_change: :select] %>
+    <%= multiple_select f, :tags, tags_select_options(@tags), selected: @selected_tag_ids, class: "form-control" %>
+  </form>
+</div>
