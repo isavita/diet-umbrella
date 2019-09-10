@@ -3,6 +3,6 @@
   <h4>Tags</h4>
   </div>
   <%= f = form_for  %Ecto.Changeset{}, "#", [as: :filters, phx_change: :select] %>
-    <%= multiple_select f, :tags, tags_select_options(@tags), selected: @selected_tag_ids, class: "form-control" %>
+    <%= multiple_select f, :tags, [all: nil] ++ tags_select_options(@tags), selected: @selected_tag_ids, class: "form-control" %>
   </form>
 </div>

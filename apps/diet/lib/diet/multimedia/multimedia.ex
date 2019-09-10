@@ -109,10 +109,11 @@ defmodule Diet.Multimedia do
 
   def list_videos_paginated(opts) do
     opts = Keyword.put_new(opts, :cursor_fields, [:published_at])
+    {tag_ids, opts} = Keyword.get_and_update(opts, :tag_ids, fn _ -> :pop end)
 
     Video
     |> reject_low_quality_query()
-    |> tags_query(opts[:tag_ids])
+    |> tags_query(tag_ids)
     |> published_query()
     |> order_by(desc: :published_at)
     |> preload(:user)

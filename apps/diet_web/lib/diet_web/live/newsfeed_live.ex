@@ -70,7 +70,7 @@ defmodule DietWeb.NewsfeedLive do
   end
 
   def handle_event("select", %{"filters" => %{"tags" => tag_ids}}, socket) do
-    tag_ids = Enum.map(tag_ids, &String.to_integer/1)
+    tag_ids = Enum.map(tag_ids, &parse_integer/1) |> Enum.reject(&is_nil/1)
     {videos, next_cursor} = prepend_videos([], nil, tag_ids)
 
     socket =
@@ -90,7 +90,8 @@ defmodule DietWeb.NewsfeedLive do
   def handle_event("load-more", "", socket), do: {:noreply, socket}
 
   def handle_event("load-more", cursor, socket) do
-    {videos, next_cursor} = prepend_videos(socket.assigns.videos, cursor)
+    {videos, next_cursor} =
+      prepend_videos(socket.assigns.videos, cursor, socket.assigns.selected_tag_ids)
 
     {
       :noreply,
@@ -103,7 +104,7 @@ defmodule DietWeb.NewsfeedLive do
   end
 
   def handle_info({Multimedia, {:video, _}, _}, socket) do
-    {videos, next_cursor} = prepend_videos([], nil)
+    {videos, next_cursor} = prepend_videos([], nil, socket.assigns.selected_tag_ids)
 
     {
       :noreply,
@@ -147,6 +148,12 @@ defmodule DietWeb.NewsfeedLive do
   end
 
   defp prepend_videos(videos, next_cursor, tag_ids \\ nil) do
+    tag_ids =
+      case tag_ids do
+        [_ | _tail] -> tag_ids
+        _ -> nil
+      end
+
     %{entries: old_videos, metadata: metadata} = next_videos(next_cursor, tag_ids)
 
     {Enum.uniq(videos ++ old_videos), metadata.after}
@@ -159,5 +166,14 @@ defmodule DietWeb.NewsfeedLive do
       limit: @videos_per_scroll,
       tag_ids: tag_ids
     )
+  end
+
+  defp parse_integer(nil), do: nil
+
+  defp parse_integer(val) do
+    case Integer.parse(val) do
+      {n, _} -> n
+      _ -> nil
+    end
   end
 end

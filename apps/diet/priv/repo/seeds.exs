@@ -54,11 +54,11 @@ chris = Repo.get_by(User, username: "chris")
 
 videos = [
   %Video{
-    url: "https://www.youtube.com/watch?v=0Bn2NQP2i7A",
+    url: "https://www.youtube.com/watch?v=0Bn2NQP2i7A?#{Ecto.UUID.generate()}",
     title: "IOHK Summit 2019 day 2",
     description: "IOHK Summit 2019 day 2 technical talks",
     published_at: DateTime.truncate(DateTime.utc_now(), :second),
-    user: jose
+    user: user
   },
   %Video{
     url: "https://www.youtube.com/watch?v=VsnQf7exv5I",
