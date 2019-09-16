@@ -3988,10 +3988,10 @@ performance-now@^2.1.0:
 "phoenix_html@file:../../../deps/phoenix_html":
   version "2.13.3"
 
-phoenix_live_view@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.1.1.tgz#68ec260a0819fca9ca423f2567cc15274040b344"
-  integrity sha512-ol7oBq/kx+443SYEdUN1vzUZOtqTFIvZZunbo1yhEhoGLzL7osep+BQQOX/8dzsMxaJ49ZZiAVLRKbSF3atnZw==
+phoenix_live_view@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.2.0.tgz#5c2c80101c834e1d0690e754a250d56969bc4400"
+  integrity sha512-GQFc1ZHeIHJetzP0ljuf3Gf2Eixu/s9WsiV8B01qj7An+MiToHgvCmjm8mqA69xHeKdoZKVZsXQnOxY9Lz1DWQ==
 
 pify@^2.0.0:
   version "2.3.0"
