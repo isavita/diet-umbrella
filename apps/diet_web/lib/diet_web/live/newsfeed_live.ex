@@ -87,9 +87,9 @@ defmodule DietWeb.NewsfeedLive do
     {:noreply, assign(socket, report_modal_open: true)}
   end
 
-  def handle_event("load-more", "", socket), do: {:noreply, socket}
+  def handle_event("load-more", %{"cursor" => ""}, socket), do: {:noreply, socket}
 
-  def handle_event("load-more", cursor, socket) do
+  def handle_event("load-more", %{"cursor" => cursor}, socket) do
     {videos, next_cursor} =
       prepend_videos(socket.assigns.videos, cursor, socket.assigns.selected_tag_ids)
 

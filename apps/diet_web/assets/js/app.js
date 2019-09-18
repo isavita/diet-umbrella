@@ -2,7 +2,7 @@
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import 'bootstrap';
-import css from "../css/app.scss"
+import css from "../css/app.scss";
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
@@ -10,14 +10,15 @@ import css from "../css/app.scss"
 //
 // Import dependencies
 //
-import "phoenix_html"
+import "phoenix_html";
 
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
-import socket from "./socket"
+//
+import socket from "./socket";
+import { Socket } from "phoenix";
+import LiveSocket from "phoenix_live_view";
 
-import LiveSocket from "phoenix_live_view"
-
-let liveSocket = new LiveSocket("/live");
+let liveSocket = new LiveSocket("/live", Socket);
 liveSocket.connect();

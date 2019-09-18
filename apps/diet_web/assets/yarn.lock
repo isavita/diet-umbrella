@@ -3983,15 +3983,15 @@ performance-now@^2.1.0:
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
 "phoenix@file:../../../deps/phoenix":
-  version "1.4.9"
+  version "1.4.10"
 
 "phoenix_html@file:../../../deps/phoenix_html":
   version "2.13.3"
 
-phoenix_live_view@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.2.0.tgz#5c2c80101c834e1d0690e754a250d56969bc4400"
-  integrity sha512-GQFc1ZHeIHJetzP0ljuf3Gf2Eixu/s9WsiV8B01qj7An+MiToHgvCmjm8mqA69xHeKdoZKVZsXQnOxY9Lz1DWQ==
+phoenix_live_view@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.2.1.tgz#21eb25dfadf131b3cf0100bd5dfff1dab8f49eef"
+  integrity sha512-CXR+PEwnUQcyuim8RIFhK1ruFmGBUAuominkLBdo50aGRmoaQFee8zKDH2Cb/lxBnsqkxBKnDUQGQ8ZVVsVHdQ==
 
 pify@^2.0.0:
   version "2.3.0"
