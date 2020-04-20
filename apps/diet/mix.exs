@@ -37,7 +37,7 @@ defmodule Diet.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.1"},
-      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix_pubsub, "~> 2.0"},
       {:postgrex, ">= 0.13.5"},
       {:pbkdf2_elixir, "~> 1.0"},
       {:sweet_xml, "~> 0.6.6"},
