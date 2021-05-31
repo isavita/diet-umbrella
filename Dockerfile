@@ -2,7 +2,7 @@
 ARG ALPINE_VERSION=3.9
 
 # Building step
-FROM elixir:1.9.1-alpine AS build
+FROM elixir:1.12.0-alpine AS build
 
 # Installs all the build tools
 RUN apk update && \
