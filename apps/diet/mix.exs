@@ -40,7 +40,7 @@ defmodule Diet.MixProject do
       {:phoenix_pubsub, "~> 1.1"},
       {:postgrex, ">= 0.13.5"},
       {:pbkdf2_elixir, "~> 1.0"},
-      {:sweet_xml, "~> 0.6.6"},
+      {:sweet_xml, "~> 0.7.0"},
       {:jason, "~> 1.0"},
       {:paginator, git: "https://github.com/duffelhq/paginator.git", branch: "master"}
     ]
